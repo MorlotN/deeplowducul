@@ -1,7 +1,6 @@
-# Test d'amour : fou, toxique ou stable ?
+# DeepLowDuCul : fou, toxique ou stable ?
 
 Recherches du 25 septembre 2026, avis de Jarvis et première trame du test.
-Nom de dossier provisoire : `test-amour`.
 
 ---
 
@@ -226,12 +225,11 @@ Comme le Test du Boudoir et Tu préfères : une seule page `index.html`, faite
 pour le téléphone, sans serveur. **Aucune réponse ne quitte le téléphone**,
 point important vu le sujet. Mise en ligne sur GitHub Pages si tu le veux.
 
-### Tes décisions
-1. Qui joue : toi seul sur ta relation, ou un test à partager avec des amis ?
-   Plus tard, un mode duo où chacun répond de son côté et on compare ?
-2. On garde les quatre profils bonus, ou seulement fou, toxique, stable ?
-3. Un nom : « Test d'amour », « Dopamine », « Fusée ou Montagnes russes ? »,
-   autre ?
+### Décisions du 25 septembre 2026
+1. Les deux : un mode solo et un mode entre potes (on se passe le téléphone),
+   plus un mode hardcore 18+ (sexe, ex, jalousie, verdicts sans pitié).
+2. Les sept profils sont gardés.
+3. Nom : **DeepLowDuCul**.
 
 ---
 

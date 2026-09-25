@@ -1,11 +1,24 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>DeepLowDuCul</title>
 <meta name="description" content="Fou, toxique ou stable ? Le test qui passe ta relation au labo : questions, courbe de ta semaine et compte rendu d'analyse de dopamine.">
 <meta name="robots" content="noindex, nofollow">
+<meta property="og:type" content="website">
+<meta property="og:title" content="DeepLowDuCul">
+<meta property="og:description" content="Fou, toxique ou stable ? Ta relation passée au labo de la dopamine. En solo, entre potes ou en mode hardcore.">
+<meta property="og:locale" content="fr_FR">
+<meta name="theme-color" content="#f6f2f7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#130e18" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23130e18'/%3E%3Cpath d='M6 38h14l4-6 5 18 7-36 5 24h17' fill='none' stroke='%23ff4f8b' stroke-width='5' stroke-linejoin='round' stroke-linecap='round'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Big+Shoulders+Display:wght@700;800;900&family=IBM+Plex+Mono:wght@400;600&display=swap">
 <style>
 :root{
+  color-scheme:light;
   --papier:#f6f2f7; --feuille:#ffffff; --encre:#1e1526; --gris:#6c5f77;
   --filet:#e3dae8; --filet-fort:#c9bad2;
   --dopa:#d31f5c; --dopa-doux:#fbe3ec; --sur-dopa:#ffffff;
@@ -42,6 +55,7 @@
 
 *{box-sizing:border-box}
 [hidden]{display:none!important}
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 body{margin:0;background:var(--papier);color:var(--encre);font-family:var(--f-corps);font-size:17px;line-height:1.5;-webkit-font-smoothing:antialiased}
 .app{max-width:36rem;margin-inline:auto;padding-inline:16px;padding-block:0 40px}
 button{font:inherit;color:inherit}
@@ -181,7 +195,8 @@ details p{margin:10px 0 0;max-width:62ch;font-size:.97rem}
   *,*::before,*::after{animation:none!important;transition:none!important}
 }
 </style>
-
+</head>
+<body>
 <div class="app">
   <header class="moniteur" aria-label="Moniteur de dopamine">
     <div class="moniteur-tete"><span>Taux de dopamine</span><span class="lecture" id="lecture">au repos</span></div>
@@ -1052,3 +1067,5 @@ if (location.hash === '#demo') {
 }
 })();
 </script>
+</body>
+</html>
