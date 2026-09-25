@@ -119,6 +119,7 @@ input[type="text"]:focus{outline:none;border-color:var(--dopa)}
 .option.choisi{border-color:var(--dopa);background:var(--dopa-doux)}
 .lettre{font-family:var(--f-mono);font-weight:600;font-size:.9rem;color:var(--dopa)}
 .quip{margin:0;font-style:italic;color:var(--gris)}
+#q-passer{justify-self:start}
 
 /* passe */
 .passe-nom{font-family:var(--f-titre);font-weight:900;font-size:clamp(3.2rem,17vw,5.5rem);line-height:.88;text-transform:uppercase;color:var(--dopa);margin:0;overflow-wrap:anywhere}
@@ -215,7 +216,7 @@ details p{margin:10px 0 0;max-width:62ch;font-size:.97rem}
     <p class="intro">Des questions, la courbe de ta semaine, puis un compte rendu d'analyse avec ton taux de turbulence. Inspiré de la recherche sur l'amour et l'addiction, écrit pour rire un peu. Aucune réponse ne quitte ce téléphone.</p>
     <label class="interrupteur" for="hardcore">
       <input type="checkbox" id="hardcore">
-      <span><strong>Mode hardcore · 18+</strong><span>Questions sur le sexe, les ex et la jalousie. Verdicts sans pitié.</span></span>
+      <span><strong>Mode hardcore · 18+</strong><span>Sexe, sextos, fantasmes, ex et tentations. Réponses crues, verdicts sans pitié.</span></span>
     </label>
     <div class="modes">
       <button type="button" class="mode" id="choix-solo"><strong>Solo</strong><span id="desc-solo">Ta relation au microscope. 15 questions et la courbe de ta semaine.</span></button>
@@ -275,6 +276,7 @@ details p{margin:10px 0 0;max-width:62ch;font-size:.97rem}
     <span class="puce-hard" id="q-hard" hidden>Hardcore</span>
     <h2 class="q-texte" id="q-texte"></h2>
     <ul class="options" id="q-options"></ul>
+    <button type="button" class="lien" id="q-passer">Aucune ne me correspond, question suivante</button>
     <p class="quip" id="q-quip"></p>
   </section>
 
@@ -348,87 +350,128 @@ const DUREE = { id: 'duree', t: 'Ça dure depuis combien de temps avec {P} ?', o
 const QUESTIONS = [
   { id: 'silence', t: '{P} ne répond pas depuis trois heures. Tu…', o: [
     { x: 'Ne l’as même pas remarqué : tu étais dans un paquet de chips.', e: { s: 2 } },
+    { x: 'Te dis que {P} a sûrement du boulot, et tu y penses quand même un peu.', e: { s: 1, i: 1 } },
+    { x: 'Envoies un deuxième message, mine de rien.', e: { i: 1, t: 1 } },
     { x: 'Relis toute la conversation pour trouver ce que tu as mal dit.', e: { t: 3 } },
     { x: 'As déjà écrit un poème sur son silence.', e: { i: 3, t: 1 } },
     { x: 'Vérifies sa dernière connexion toutes les quatre minutes. C’est du cardio.', e: { t: 3, i: 1, f: 1 } },
+    { h: true, x: 'Postes une story en tenue légère, juste pour voir si {P} réagit.', e: { t: 2, i: 1, j: 1 } },
   ]},
   { id: 'dispute', t: 'Votre dernière dispute ressemblait à…', o: [
     { x: 'Un débat sur le meilleur fromage, réglé en dix minutes.', e: { s: 3, r: 1 } },
+    { x: 'Un vrai clash, puis une vraie discussion. Ça a pris la soirée.', e: { s: 2, t: 1, r: 1 } },
+    { x: 'Un truc bête qui a dégénéré, et on n’en a jamais reparlé.', e: { t: 2 } },
     { x: 'Une saison de télé-réalité, réconciliation en larmes comprise.', e: { t: 3, i: 2 } },
     { x: 'Quelle dispute ? Vous passez votre temps à vous regarder dans les yeux.', e: { i: 3, s: 1 } },
     { x: 'Trois jours de silence, puis on fait comme si de rien n’était.', e: { t: 2, f: 1 } },
+    { h: true, x: 'Une engueulade qui a fini au lit avant la fin de la phrase.', e: { t: 2, i: 2 } },
   ]},
   { id: 'potes', t: 'Quand tu parles de {P}, tes potes…', o: [
     { x: 'Adorent {P}, qui vient aux soirées et ramène l’apéro.', e: { s: 3, r: 1 } },
+    { x: 'Trouvent {P} sympa, sans plus. Ça te va très bien.', e: { s: 2 } },
+    { x: 'N’ont jamais rencontré {P}. Tu gardes ça pour toi.', e: { j: 2 } },
     { x: 'Ont créé un groupe WhatsApp sans toi pour en parler.', e: { t: 2, f: 1 } },
     { x: 'Ne savent plus grand-chose de toi depuis deux mois.', e: { f: 2, i: 1 }, alerte: 'tes proches ne savent plus rien de toi' },
     { x: 'Demandent « Qui ça ? ».', e: { j: 3 } },
+    { h: true, x: 'Connaissent surtout ses performances au lit. En détail. Avec des notes.', e: { i: 2, s: 1 } },
   ]},
   { id: 'ressent', t: 'Tu sais ce que {P} ressent pour toi ?', o: [
     { x: 'Oui, on se l’est dit en face.', e: { r: 3, s: 2 } },
+    { x: 'Je pense que oui, même si on ne se le dit pas beaucoup.', e: { r: 2, s: 1 } },
     { x: 'Je crois. Je décortique ses emojis pour vérifier.', e: { r: 1, i: 2, t: 1 } },
+    { x: 'Pas vraiment. On n’en parle pas, et ça m’arrange.', e: { j: 2 } },
     { x: 'Ça dépend des jours : un jour je suis sa vie, le lendemain plus rien.', e: { t: 3, r: 1 } },
     { x: 'Aucune idée, mais j’ai déjà choisi le prénom de nos enfants.', e: { i: 3, j: 1 } },
+    { h: true, x: 'Je sais ce que {P} ressent pour mon corps. Pour le reste, on verra.', e: { j: 2, i: 1, r: 1 } },
   ]},
   { id: 'soiree', t: 'Après une soirée avec {P}, tu te sens…', o: [
     { x: 'Batterie à 100 %.', e: { s: 3, i: 1 } },
+    { x: 'Le sourire aux lèvres, en train de compter les jours jusqu’à la prochaine.', e: { i: 2, s: 1 } },
     { x: 'Sur un nuage, puis vide le lendemain matin.', e: { t: 3, i: 2 } },
+    { x: 'Avec l’envie de rentrer chez toi, pour être honnête.', e: { j: 1 } },
     { x: 'À plat, sans trop savoir pourquoi.', e: { t: 1, f: 1 } },
     { x: 'Comme avant. C’était sympa, il y avait des pâtes.', e: { s: 2 } },
+    { h: true, x: 'Plein de courbatures, et pas à cause du sport.', e: { i: 2, s: 1 } },
   ]},
   { id: 'cinqans', t: 'Tu imagines {P} dans cinq ans…', o: [
     { x: 'À côté de toi, à se disputer la télécommande.', e: { s: 3, r: 1 } },
+    { x: 'Probablement avec toi, mais vous n’en avez jamais parlé.', e: { s: 1, j: 1 } },
     { x: 'Tu as déjà un tableau Pinterest pour le mariage.', e: { i: 3 } },
+    { x: 'Tu préfères ne pas y penser, ça fait peur.', e: { t: 1, j: 1 } },
     { x: 'Cinq ans ? Vous n’avez même pas prévu samedi.', e: { j: 3, t: 1 } },
     { x: 'Ça dépend de son humeur de la semaine.', e: { t: 3 } },
+    { h: true, x: 'Avec toi, ou avec quelqu’un de meilleur au lit. Rien n’est écrit.', e: { j: 2, t: 1 } },
   ]},
   { id: 'telephone', t: 'Ton téléphone, pour {P}, c’est…', o: [
     { x: 'Ton téléphone. {P} n’y touche pas.', e: { s: 2, r: 1 } },
+    { x: 'Vous connaissez vos codes, mais personne ne fouille.', e: { s: 2, r: 1 } },
     { x: 'Un appareil photo : vous vous le piquez pour les selfies.', e: { s: 1, i: 1 } },
-    { x: 'Un dossier d’enquête : {P} veut lire tes messages.', e: { f: 3, t: 1 }, alerte: '{P} veut lire tes messages' },
+    { x: 'Tu le retournes face contre la table quand {P} est là.', e: { j: 2, t: 1 } },
     { x: 'Un sujet sensible : tu as changé ton code après la dernière crise.', e: { t: 2, f: 1 } },
+    { x: 'Un dossier d’enquête : {P} veut lire tes messages.', e: { f: 3, t: 1 }, alerte: '{P} veut lire tes messages' },
+    { h: true, x: 'Une galerie privée à laquelle {P} contribue beaucoup. Tu vois de quoi on parle.', e: { i: 2, s: 1 } },
   ]},
   { id: 'bien', t: 'Quand ça va bien entre vous, c’est…', o: [
     { x: 'Doux et régulier, comme une bonne playlist.', e: { s: 2, i: 1 } },
+    { x: 'Complice : vous riez des mêmes bêtises.', e: { s: 2, r: 1, i: 1 } },
     { x: 'Le feu d’artifice du 14 juillet, tous les jours.', e: { i: 3 } },
+    { x: 'Rare, mais tellement bien que tu oublies le reste.', e: { t: 2, i: 2 } },
     { x: 'D’autant plus fort que la veille, c’était la guerre.', e: { t: 3, i: 2 } },
     { x: 'Bien. Juste bien. Et c’est très bien.', e: { s: 2 } },
+    { h: true, x: 'Trois fois par nuit. Les voisins ont porté plainte.', e: { i: 3 } },
   ]},
   { id: 'vie', t: 'Depuis que tu vois {P}, ta vie est…', o: [
     { x: 'Plus grande : nouveaux potes, nouveaux plans, nouveaux restos.', e: { s: 3, i: 1 } },
+    { x: 'Plus chargée : entre ses potes et les tiens, plus un soir de libre.', e: { s: 2, i: 1 } },
     { x: 'Pareille, avec quelqu’un en plus dedans.', e: { s: 1 } },
+    { x: 'Plus stressante : tu fais attention à ce que tu dis.', e: { t: 2, f: 1 } },
     { x: 'Plus petite : tout tourne autour de {P}.', e: { f: 2, i: 2, t: 1 }, alerte: 'ta vie rétrécit autour de {P}' },
     { x: 'En pause : tu attends de savoir où vous en êtes.', e: { j: 2, t: 2 } },
+    { h: true, x: 'Plus fatigante : tu dors moins, et ce n’est pas parce que tu lis.', e: { i: 2 } },
   ]},
   { id: 'ex', t: 'L’ex de {P} like une de ses photos. Tu…', o: [
     { x: 'Likes aussi, par solidarité.', e: { s: 2 } },
-    { x: 'Épluches trois ans de publications, captures d’écran à l’appui.', e: { t: 2, i: 2 } },
     { x: 'T’en fiches, c’est du passé.', e: { s: 2 } },
+    { x: 'Le remarques, ça pique un peu, et tu passes à autre chose.', e: { s: 1, i: 1 } },
+    { x: 'En parles à {P}, calmement. Enfin, presque.', e: { s: 1, t: 1, r: 1 } },
+    { x: 'Épluches trois ans de publications, captures d’écran à l’appui.', e: { t: 2, i: 2 } },
     { x: 'Fais une scène. Ou c’est {P} qui t’en fait une pour moins que ça.', e: { f: 2, t: 2 }, alerte: 'des scènes de jalousie' },
+    { h: true, x: 'Vas liker toutes les photos de ton ex à toi. Œil pour œil.', e: { t: 2, j: 2 } },
   ]},
   { id: 'officiel', t: 'Vous êtes quoi, officiellement ?', o: [
     { x: 'Un couple, avec le statut et tout.', e: { s: 2, r: 2 } },
+    { x: '{P} a rencontré ta mère, c’est dire.', e: { i: 1, s: 2, r: 2 } },
+    { x: 'Un couple, mais vous ne l’avez pas encore dit à tout le monde.', e: { s: 1, r: 2, j: 1 } },
+    { x: 'Exclusifs, sans l’avoir jamais dit. Enfin, tu crois.', e: { j: 2, r: 1 } },
     { x: '« On voit où ça va », depuis huit mois.', e: { j: 3 } },
     { x: 'Ensemble, séparés, ensemble. Tu as perdu le compte.', e: { t: 3, j: 1 } },
-    { x: '{P} a rencontré ta mère, c’est dire.', e: { i: 1, s: 2, r: 2 } },
+    { h: true, x: 'Un plan cul qui a dérapé en dîners aux chandelles.', e: { j: 2, i: 2 } },
   ]},
   { id: 'non', t: 'Quand tu dis non à {P}…', o: [
     { x: 'On en parle, et ça passe.', e: { s: 3 } },
+    { x: '{P} fait la tête le temps d’un café, puis on en rit.', e: { s: 2 } },
     { x: '{P} boude deux heures, puis c’est oublié.', e: { s: 1, t: 1 } },
+    { x: 'Ça tourne à la dispute à chaque fois.', e: { t: 2 } },
     { x: 'Tu ne dis jamais non. À quoi bon ?', e: { i: 2, f: 1 } },
     { x: 'Tu as peur de sa réaction.', e: { f: 3, t: 2 }, alerte: 'tu as peur de sa réaction' },
   ]},
   { id: 'debut', t: 'Au début, {P} t’a…', o: [
     { x: 'Plu tout doucement, sans que tu voies le coup venir.', e: { s: 2, i: 1 } },
+    { x: 'Plu sur le tard. Ce n’était pas gagné.', e: { s: 2 } },
+    { x: 'Fait rire dès la première conversation.', e: { s: 1, i: 2, r: 1 } },
     { x: 'Fait l’effet d’un coup de massue, dès le premier regard.', e: { i: 3 } },
     { x: 'Offert des fleurs et dit « je t’aime » dès la deuxième semaine.', e: { f: 2, i: 2, t: 1 }, alerte: 'un début en love bombing' },
     { x: 'Répondu une fois sur deux. C’est ce qui a tout déclenché.', e: { t: 2, i: 2 } },
+    { h: true, x: 'Sauté dessus le premier soir. Les présentations sont venues après.', e: { i: 3, j: 1 } },
   ]},
   { id: 'semaine-sans', t: 'Une semaine sans nouvelles de {P}, pour toi c’est…', o: [
     { x: 'Des vacances. Ça fait du bien aussi.', e: { j: 1 } },
     { x: 'Long, mais tu sais que {P} revient.', e: { s: 3, r: 2, i: 1 } },
+    { x: 'Bizarre : d’habitude, vous vous écrivez tous les jours.', e: { s: 1, i: 1, r: 1 } },
+    { x: 'Une inquiétude : tu te demandes ce que tu as fait.', e: { t: 2 } },
     { x: 'Un sevrage : sueurs froides, insomnies, relecture de vos messages.', e: { i: 3, t: 2 } },
     { x: 'Déjà arrivé, deux fois. Puis {P} a refait surface comme si de rien n’était.', e: { t: 3, j: 2 } },
+    { h: true, x: 'Tenable : tu as ses nudes du mois dernier pour patienter.', e: { i: 2, j: 1 } },
   ]},
 ];
 
@@ -436,42 +479,91 @@ const HARDCORE = [
   { id: 'lit', t: 'Au lit avec {P}, c’est…', o: [
     { x: 'Toujours bien, parfois génial, jamais un drame.', e: { s: 3, i: 1 } },
     { x: 'Explosif, surtout après une engueulade.', e: { t: 3, i: 2 } },
-    { x: 'On ne va pas se mentir : Netflix a gagné.', e: { s: 1 } },
     { x: 'Le seul endroit où vous vous comprenez vraiment.', e: { i: 2, t: 2, j: 2 } },
+    { x: 'Correct, mais tu as déjà simulé. Plusieurs fois.', e: { t: 1, j: 1 } },
+    { x: 'On ne va pas se mentir : Netflix a gagné.', e: { s: 1 } },
+  ]},
+  { id: 'frequence', t: 'Vous le faites combien de fois par semaine ?', o: [
+    { x: 'Assez pour sourire, pas assez pour boiter.', e: { s: 2, i: 1 } },
+    { x: 'Tous les jours, parfois deux. Le matelas demande grâce.', e: { i: 3 } },
+    { x: 'Zéro ou dix, selon l’état de la relation. Pas de milieu.', e: { t: 3, i: 1 } },
+    { x: 'Seulement quand l’un de vous a bu.', e: { j: 2, t: 1 } },
+    { x: 'On compte en mois, pas en semaines.', e: { s: 1 } },
+  ]},
+  { id: 'fantasme', t: 'Ton plus gros fantasme avec {P}…', o: [
+    { x: 'Un week-end entier au lit, sans téléphone, avec room service.', e: { i: 2, s: 2 } },
+    { x: 'Un lieu public. Tu as déjà repéré l’endroit.', e: { i: 3 } },
+    { x: 'Une troisième personne. Tu n’as pas encore osé en parler.', e: { j: 2, i: 1 } },
+    { x: 'Que {P} réponde enfin à tes messages en moins de six heures.', e: { t: 2, j: 1 } },
+    { x: 'Tu n’en as pas avec {P}. Tu en as avec d’autres.', e: { j: 3, t: 1 } },
+  ]},
+  { id: 'sextos', t: 'Vos sextos, c’est…', o: [
+    { x: 'Rare et drôle. Surtout drôle.', e: { s: 2 } },
+    { x: 'Quotidien. Ton téléphone est classé X.', e: { i: 3 } },
+    { x: 'Plein de sextos, zéro vraie conversation.', e: { j: 2, i: 2 } },
+    { x: 'Tu envoies, {P} répond « mdr ». Depuis trois semaines.', e: { t: 2, j: 1 } },
+    { x: 'Inexistant. Vous préférez le direct.', e: { i: 1, s: 1 } },
+  ]},
+  { id: 'compare', t: 'Tu compares {P} à ton ex…', o: [
+    { x: 'Jamais. Ton ex ne mérite même pas la comparaison.', e: { s: 2 } },
+    { x: 'Au lit, oui, et {P} gagne haut la main.', e: { i: 2, s: 1 } },
+    { x: 'Au lit, oui, et c’est serré.', e: { j: 2, t: 1 } },
+    { x: 'Tout le temps, et ton ex te manque un peu.', e: { j: 2, t: 2 } },
+    { x: 'C’est {P} qui te compare à son ex. À voix haute.', e: { t: 2, f: 1 } },
+  ]},
+  { id: 'drague', t: 'Quelqu’un de très canon te drague en soirée. Tu…', o: [
+    { x: 'Rigoles, remercies, et écris à {P} que tu as la cote.', e: { s: 3, r: 1 } },
+    { x: 'Prends le numéro, « au cas où ».', e: { j: 3 } },
+    { x: 'Ne fais rien, mais tu y repenses toute la semaine.', e: { j: 2, t: 1 } },
+    { x: 'Fais exprès que {P} le voie.', e: { t: 2, j: 1 } },
+    { x: 'Ne risques rien : {P} te surveille de près en soirée.', e: { f: 2, t: 1 }, alerte: '{P} surveille tes soirées' },
+  ]},
+  { id: 'meilleurpote', t: '{P} a un meilleur pote ou une meilleure pote très tactile. Tu…', o: [
+    { x: 'T’en fiches, c’est devenu ton pote aussi.', e: { s: 2, r: 1 } },
+    { x: 'Surveilles leurs échanges de loin. Avec des jumelles.', e: { t: 2, i: 1 } },
+    { x: 'Te demandes s’il ne s’est pas déjà passé quelque chose.', e: { t: 2, j: 1 } },
+    { x: 'As demandé à {P} de prendre ses distances.', e: { f: 2, t: 1 }, alerte: 'tu demandes à {P} de s’éloigner de ses amis' },
+    { x: 'C’est l’inverse : {P} ne supporte aucun de tes potes.', e: { f: 2, t: 1 }, alerte: '{P} ne supporte pas tes amis' },
   ]},
   { id: 'stalk', t: 'Tu as stalké l’ex de {P} jusqu’à…', o: [
     { x: 'Jamais. Tu as une vie.', e: { s: 2 } },
     { x: 'Ses photos de vacances de 2019.', e: { i: 1, t: 1 } },
     { x: 'Son LinkedIn, sa mère et son chien.', e: { i: 2, t: 2 } },
+    { x: 'Comparer vos photos en maillot, zoom compris.', e: { i: 2, t: 2 } },
     { x: 'Te créer un faux compte pour ça.', e: { i: 2, t: 2, f: 1 } },
   ]},
   { id: 'deuxh', t: 'Le message de {P} à 2 h du matin, c’est plutôt…', o: [
     { x: '« Tu dors ? Fais de beaux rêves. »', e: { s: 2, r: 1 } },
     { x: '« Tu dors ? 😏 », et tu arrives en taxi.', e: { i: 2, j: 2 } },
+    { x: 'Trois photos que tu n’ouvriras pas au travail.', e: { i: 2, j: 1 } },
     { x: 'Un pavé sur tout ce que tu as fait de travers.', e: { t: 3, f: 2 }, alerte: 'des reproches en pleine nuit' },
     { x: 'Rien. {P} dort à côté et ronfle.', e: { s: 2 } },
   ]},
   { id: 'tumemanques', t: 'Ton ex t’écrit « tu me manques ». Tu…', o: [
     { x: 'Réponds « pas toi » et retournes voir {P}.', e: { s: 2 } },
-    { x: 'Hésites trente secondes de trop.', e: { j: 2, t: 1 } },
     { x: 'Montres le message à {P}, ça fait une anecdote.', e: { s: 3, r: 1 } },
+    { x: 'Hésites trente secondes de trop.', e: { j: 2, t: 1 } },
+    { x: 'Réponds « moi aussi » et effaces la conversation.', e: { j: 3, t: 2 } },
     { x: 'As déjà fait le coup à {P} pour tester sa jalousie.', e: { t: 2, j: 2, f: 1 } },
   ]},
   { id: 'historique', t: 'Si {P} tombait sur ton historique de recherche…', o: [
     { x: 'Rien de grave : recettes, météo, vidéos de chats.', e: { s: 2 } },
-    { x: '{P} lirait « comment savoir si on m’aime vraiment ».', e: { i: 2, t: 2 } },
+    { x: 'Des vidéos qui n’ont rien à voir avec les chats.', e: { i: 1, j: 1 } },
+    { x: '« Comment savoir si on m’aime vraiment ».', e: { i: 2, t: 2 } },
     { x: 'Tu changerais de pays.', e: { j: 2, t: 1 } },
     { x: '{P} l’a déjà lu, sans te demander.', e: { f: 3 }, alerte: '{P} fouille ton historique' },
   ]},
   { id: 'reconciliation', t: 'Votre plus grosse réconciliation, c’était…', o: [
     { x: 'Un câlin et une pizza.', e: { s: 2 } },
-    { x: 'Un week-end entier sans sortir de la chambre.', e: { i: 2, t: 2 } },
-    { x: 'La cinquième de l’année, et on est en mars.', e: { t: 3, j: 1 } },
     { x: 'Il n’y a jamais vraiment eu de fâcherie.', e: { s: 2 } },
+    { x: 'Un week-end entier sans sortir de la chambre.', e: { i: 2, t: 2 } },
+    { x: 'Une nuit blanche, et le lendemain on recommençait à se crier dessus.', e: { t: 3, i: 2 } },
+    { x: 'La cinquième de l’année, et on est en mars.', e: { t: 3, j: 1 } },
   ]},
   { id: 'contact', t: 'Dans tes contacts, {P} s’appelle…', o: [
     { x: '{P}. Tout simplement.', e: { s: 1 } },
     { x: 'Un surnom ridicule et trois cœurs.', e: { i: 2, s: 1 } },
+    { x: 'Son prénom et une aubergine.', e: { i: 2, j: 1 } },
     { x: '« Ne pas répondre », et tu réponds à chaque fois.', e: { t: 3, j: 1 } },
     { x: 'Un faux nom, pour que personne ne tombe dessus.', e: { j: 3 } },
   ]},
@@ -485,25 +577,25 @@ const BANQUE = {};
 const PROFILS = {
   fusee: { nom: 'La Fusée', type: 'Amour fou', v: { i: 85, t: 35, s: 60, r: 75, j: 25 },
     doux: 'Décollage vertical, tu n’as plus pied. Ton cerveau s’allume comme sous cocaïne : Helen Fisher l’a vu en IRM chez des amoureux tout neufs. Profite du voyage, mais jette un œil au tableau de bord. Une fusée, ça finit en orbite ou ça retombe.',
-    dur: 'Tu planes à dix mille mètres et {P} tient la seringue. Tu souris à ton téléphone dans le métro, tes potes ne te reconnaissent plus, et c’est aussi beau que ridicule. Profite, la redescente ne prévient pas.' },
+    dur: 'Tu es sous {P} du matin au soir, et pas qu’au sens figuré. Tu souris à ton téléphone dans le métro, tu as oublié l’anniversaire de ta mère, tes potes ont lancé un avis de recherche. C’est magnifique et pathétique à la fois. Profite, la redescente ne prévient pas.' },
   russes: { nom: 'Les Montagnes russes', type: 'Amour toxique', v: { i: 70, t: 85, s: 25, r: 50, j: 45 },
     doux: 'Tu cries, mais pas toujours de joie. Chez vous, les hauts sont très hauts parce que les bas sont très bas, et ton cerveau s’accroche à ce yo-yo comme à une machine à sous. Ce n’est pas la force de l’amour qui fait ça, c’est son imprévisibilité.',
-    dur: 'Ce n’est pas une relation, c’est une machine à sous, et tu es le client qui ne quitte jamais la salle. Tu appelles ça de la passion, ton cerveau appelle ça du manque. Demande-toi ce qui resterait si les réconciliations s’arrêtaient.' },
+    dur: 'Félicitations, tu sors avec une machine à sous. Tu mises ta dignité, tu gagnes une nuit de réconciliation, tu reperds tout le lendemain, et tu appelles ça de la passion. Ton cerveau appelle ça du manque. Le jour où les réconciliations s’arrêtent, il ne reste rien, et au fond tu le sais.' },
   port: { nom: 'Le Port d’attache', type: 'Amour stable', v: { i: 50, t: 12, s: 85, r: 85, j: 10 },
     doux: 'Des charentaises, oui, mais en cachemire. Tu sais que {P} sera là demain, et ton cerveau adore ça : moins de feux d’artifice, zéro gueule de bois. Vous vous disputez aussi, mais vous réparez vite, et c’est exactement ce que Gottman mesure chez les couples qui durent.',
-    dur: 'Pas de drame, pas de crise, pas de réconciliation sur l’oreiller à trois heures du matin. C’est d’un ennui absolument merveilleux. Tes potes en montagnes russes t’envient en secret.' },
+    dur: 'Pas de drame, pas de crise, pas de sexe de réconciliation à trois heures du matin. Votre dernière grosse surprise, c’était une nouvelle marque de lessive. C’est d’un ennui absolument merveilleux, et tes potes en montagnes russes te détestent en secret.' },
   jackpot: { nom: 'Le Jackpot', type: 'Amour accompli', v: { i: 85, t: 15, s: 85, r: 90, j: 10 },
     doux: 'La fusée a trouvé son orbite. Intensité haute et sécurité haute, après des mois : chez certains couples mariés depuis vingt ans, le cerveau réagit encore comme au premier jour (Acevedo, 2012). C’est rare. Ne le dis à personne, ça énerve.',
-    dur: 'Toujours autant envie l’un de l’autre, et en plus vous vous faites confiance. Franchement, c’est indécent. Arrête de faire ce test et va t’occuper de {P}.' },
+    dur: 'Vous vous faites confiance et vous vous sautez encore dessus. C’est indécent, et statistiquement suspect. Pose ce téléphone et va t’occuper de {P}. Tout de suite.' },
   film: { nom: 'Le Film dans ta tête', type: 'Limérence', v: { i: 85, t: 55, s: 30, r: 15, j: 50 },
     doux: 'Tu as écrit la saga en trois tomes, {P} n’a pas lu le scénario. C’est la limérence, décrite par Dorothy Tennov en 1979 : moins tu sais ce que l’autre ressent, plus tu y penses. Le remède est simple et un peu cruel : obtenir une vraie réponse.',
-    dur: 'Tu es en couple. Avec l’idée que tu te fais de {P}. {P}, de son côté, n’est peut-être même pas au courant. Pose-lui la question, ou pose ton téléphone.' },
+    dur: 'Tu es en couple. Avec l’idée que tu te fais de {P}. {P} n’est même pas au courant qu’il y a un film, encore moins d’y tenir le premier rôle. Pose-lui la question, ou pose ton téléphone. Les deux te feront du bien.' },
   cache: { nom: 'Le Cache-cache', type: 'Amour-jeu', v: { i: 45, t: 50, s: 35, r: 45, j: 85 },
     doux: 'Personne ne sait qui cherche qui, ni si la partie est finie. C’est l’amour-jeu, le Ludus de la roue de John Lee : léger, drôle, sans engagement. Parfait tant que vous jouez au même jeu tous les deux.',
-    dur: 'Des sentiments sans statut, ou un statut sans sentiments. Vous vous tournez autour depuis des mois. Soit vous vous le dites, soit vous arrêtez de faire semblant de ne pas jouer.' },
+    dur: 'Vous couchez ensemble, vous vous tournez autour depuis des mois, et personne n’ose prononcer le mot couple. Un plan cul avec des sentiments, ou des sentiments déguisés en plan cul. Dites-vous les choses, ou arrêtez de faire semblant de ne pas jouer.' },
   coloc: { nom: 'La Coloc sympa', type: 'Amour en veille', v: { i: 15, t: 15, s: 65, r: 60, j: 20 },
     doux: 'Vous partagez le Wi-Fi, les courses et un compte Netflix. L’affection est là, la flamme est en veille. Sternberg appelle ça l’amour compagnon. Bonne nouvelle : une flamme en veille, ça se rallume.',
-    dur: 'La dernière fois que {P} t’a fait de l’effet, c’était pour savoir qui descend les poubelles. Vous êtes d’excellents colocataires. Reste à savoir si ça vous suffit.' },
+    dur: 'La dernière fois que {P} t’a fait de l’effet, c’était pour savoir qui descend les poubelles. Votre vie sexuelle suit le calendrier des jours fériés. Vous êtes d’excellents colocataires. Reste à savoir si c’est ça que tu veux jusqu’à la retraite.' },
 };
 
 const AXES = ['i', 't', 's', 'r', 'j'];
@@ -523,6 +615,9 @@ const QUIPS = [
 ];
 const QUIPS_HARD = [
   'Mode hardcore : on ne ment pas à la machine.',
+  'Si tu rougis, c’est la bonne réponse.',
+  'Réponds comme si personne ne lisait par-dessus ton épaule. Vérifie quand même.',
+  'Le labo a déjà tout entendu. Vraiment tout.',
   'Ta mère ne lira pas ces réponses. Promis.',
   'Plus c’est gênant, plus c’est scientifique.',
   'Ici, « c’est compliqué » n’est pas une réponse.',
@@ -695,8 +790,18 @@ function accueil() {
   montrer('accueil'); setMoniteur(null);
 }
 
+/* Nombre de questions tirées : [normales, hardcore] */
+const TIRAGE = {
+  solo: { normal: [QUESTIONS.length, 0], hard: [8, 10] },
+  potes: { normal: [8, 0], hard: [3, 6] },
+};
+
+/* Réponses proposées : les réponses crues (h) seulement en mode hardcore */
+const visibles = q => q.o.map((o, k) => ({ o, k })).filter(({ o }) => !o.h || S.hard);
+
 function majAccueil() {
-  const n = 1 + QUESTIONS.length + ($('#hardcore').checked ? HARDCORE.length : 0);
+  const [nq, nh] = TIRAGE.solo[$('#hardcore').checked ? 'hard' : 'normal'];
+  const n = 1 + nq + nh;
   $('#desc-solo').textContent = `Ta relation au microscope. ${n} questions et la courbe de ta semaine.`;
   document.querySelectorAll('[data-hard]').forEach(el => { el.hidden = !$('#hardcore').checked; });
 }
@@ -707,9 +812,8 @@ function demarrer(mode, joueurs) {
     nom, p, rep: {}, sem: null, pts: [35], signe: 1, d: 0,
     num: String(10000 + Math.floor(Math.random() * 90000)),
   }));
-  let qs;
-  if (mode === 'solo') qs = melanger([...QUESTIONS, ...(S.hard ? HARDCORE : [])]);
-  else qs = S.hard ? melanger([...melanger(HARDCORE).slice(0, 4), ...melanger(QUESTIONS).slice(0, 4)]) : melanger(QUESTIONS).slice(0, 8);
+  const [nq, nh] = TIRAGE[mode][S.hard ? 'hard' : 'normal'];
+  const qs = melanger([...melanger(QUESTIONS).slice(0, nq), ...melanger(HARDCORE).slice(0, nh)]);
   S.etapes = ['duree', ...qs.map(q => q.id), 'semaine'];
   S.e = 0; S.j = 0; S.verrou = false;
   MON.total = S.etapes.length + 1;
@@ -736,8 +840,10 @@ function ecranQuestion(id) {
   $('#q-qui').textContent = `${pl.nom}, à propos de ${pl.p}`;
   $('#q-hard').hidden = !q.hard;
   $('#q-texte').textContent = remplir(q.t, pl);
-  $('#q-options').innerHTML = q.o.map((o, k) =>
-    `<li><button type="button" class="option" data-k="${k}"><span class="lettre">${'ABCD'[k]}</span><span>${esc(remplir(o.x, pl))}</span></button></li>`).join('');
+  const opts = id === 'duree' ? visibles(q) : melanger(visibles(q));
+  $('#q-options').innerHTML = opts.map(({ o, k }, n) =>
+    `<li><button type="button" class="option" data-k="${k}"><span class="lettre">${'ABCDEFGH'[n]}</span><span>${esc(remplir(o.x, pl))}</span></button></li>`).join('');
+  $('#q-passer').hidden = id === 'duree';
   $('#q-quip').textContent = hasard(S.hard && Math.random() < 0.6 ? QUIPS_HARD : QUIPS);
   montrer('question'); setMoniteur(pl.pts);
 }
@@ -751,6 +857,14 @@ function repondre(k, bouton) {
   bouton.classList.add('choisi');
   setMoniteur(pl.pts);
   setTimeout(() => { S.verrou = false; avancer(); }, reduit ? 60 : 260);
+}
+
+function passer() {
+  if (S.verrou) return;
+  const pl = S.joueurs[S.j];
+  pl.rep[S.etapes[S.e]] = -1;
+  pl.pts.push(pl.pts[pl.pts.length - 1]);
+  avancer();
 }
 
 function avancer() {
@@ -799,11 +913,12 @@ function ecranRevele() {
     const q = BANQUE[id];
     $('#rv-texte').textContent = remplir(q.t, { p: 'l’autre', nom: '' });
     $('#rv-liste').innerHTML = S.joueurs.map(pl =>
-      `<li><span class="rv-nom">${esc(pl.nom)} · ${esc(pl.p)}</span><span>${esc(remplir(q.o[pl.rep[id]].x, pl))}</span></li>`).join('');
+      `<li><span class="rv-nom">${esc(pl.nom)} · ${esc(pl.p)}</span><span>${pl.rep[id] < 0 ? '<em>Passe son tour.</em>' : esc(remplir(q.o[pl.rep[id]].x, pl))}</span></li>`).join('');
     const choix = S.joueurs.map(pl => pl.rep[id]);
-    if (choix.every(c => c === choix[0])) quip = 'Tout le monde a répondu pareil. C’est inquiétant.';
+    if (choix.every(c => c < 0)) quip = 'Personne ne s’y reconnaît. Question ratée, le labo s’excuse.';
+    else if (choix.every(c => c === choix[0])) quip = 'Tout le monde a répondu pareil. C’est inquiétant.';
     else {
-      const turbulents = S.joueurs.filter(pl => (q.o[pl.rep[id]].e.t || 0) >= 3);
+      const turbulents = S.joueurs.filter(pl => pl.rep[id] >= 0 && (q.o[pl.rep[id]].e.t || 0) >= 3);
       if (turbulents.length === 1) quip = `Mention spéciale turbulence : ${turbulents[0].nom}.`;
       else if (turbulents.length > 1) quip = 'Plusieurs montagnes russes dans la salle.';
     }
@@ -825,9 +940,10 @@ function analyser(pl) {
   const alertes = []; let grave = false;
   for (const id of Object.keys(pl.rep)) {
     if (id === 'duree' || id === 'semaine') continue;
+    if (pl.rep[id] < 0) continue;
     const q = BANQUE[id], o = q.o[pl.rep[id]];
     for (const a of Object.keys(somme)) {
-      maxi[a] += Math.max(...q.o.map(x => x.e[a] || 0));
+      maxi[a] += Math.max(...visibles(q).map(({ o: x }) => x.e[a] || 0));
       somme[a] += o.e[a] || 0;
     }
     if (o.alerte) alertes.push(remplir(o.alerte, pl, false));
@@ -1064,6 +1180,7 @@ $('#jours').addEventListener('input', ev => {
   $('#s-courbe').dataset.sem = JSON.stringify(lireSemaine());
   courbe($('#s-courbe'));
 });
+$('#q-passer').addEventListener('click', passer);
 $('#valider-semaine').addEventListener('click', validerSemaine);
 $('#rv-suite').addEventListener('click', continuerRevele);
 $('#cartes').addEventListener('click', ev => {
@@ -1096,7 +1213,7 @@ if (location.hash === '#demo') {
   const pl = S.joueurs[0];
   S.etapes.forEach(id => {
     if (id === 'semaine') { pl.sem = [8, 2, 9, 3, 7, 1, 9]; pl.rep.semaine = true; pl.pts.push(50); return; }
-    const k = Math.floor(Math.random() * 4); pl.rep[id] = k;
+    const k = hasard(visibles(BANQUE[id])).k; pl.rep[id] = k;
     if (id === 'duree') pl.d = BANQUE[id].o[k].d; else pointDopa(pl, BANQUE[id].o[k].e);
   });
   ecranResultat(0);
