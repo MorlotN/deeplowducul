@@ -1,0 +1,1054 @@
+<title>DeepLowDuCul</title>
+<meta name="description" content="Fou, toxique ou stable ? Le test qui passe ta relation au labo : questions, courbe de ta semaine et compte rendu d'analyse de dopamine.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Big+Shoulders+Display:wght@700;800;900&family=IBM+Plex+Mono:wght@400;600&display=swap">
+<style>
+:root{
+  --papier:#f6f2f7; --feuille:#ffffff; --encre:#1e1526; --gris:#6c5f77;
+  --filet:#e3dae8; --filet-fort:#c9bad2;
+  --dopa:#d31f5c; --dopa-doux:#fbe3ec; --sur-dopa:#ffffff;
+  --alerte:#b93a0b; --alerte-doux:#fdebe2;
+  --fusee:#d31f5c; --russes:#c2410c; --port:#0f766e; --jackpot:#a16207;
+  --film:#6d28d9; --cache:#1d4ed8; --coloc:#57534e;
+  --ombre:0 1px 0 rgba(30,21,38,.05), 0 10px 28px -14px rgba(30,21,38,.28);
+  --f-titre:"Big Shoulders Display", "Arial Narrow", Impact, sans-serif;
+  --f-corps:"Atkinson Hyperlegible", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-mono:"IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --papier:#130e18; --feuille:#1d1623; --encre:#f3ecf6; --gris:#a998b4;
+    --filet:#2f2538; --filet-fort:#46384f;
+    --dopa:#ff4f8b; --dopa-doux:#3a1627; --sur-dopa:#1a0710;
+    --alerte:#ff8a4c; --alerte-doux:#361b0f;
+    --fusee:#ff4f8b; --russes:#ff7a3d; --port:#2dd4bf; --jackpot:#f5b94a;
+    --film:#b794f6; --cache:#7fa6ff; --coloc:#cfc7c0;
+    --ombre:0 10px 28px -14px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --papier:#130e18; --feuille:#1d1623; --encre:#f3ecf6; --gris:#a998b4;
+  --filet:#2f2538; --filet-fort:#46384f;
+  --dopa:#ff4f8b; --dopa-doux:#3a1627; --sur-dopa:#1a0710;
+  --alerte:#ff8a4c; --alerte-doux:#361b0f;
+  --fusee:#ff4f8b; --russes:#ff7a3d; --port:#2dd4bf; --jackpot:#f5b94a;
+  --film:#b794f6; --cache:#7fa6ff; --coloc:#cfc7c0;
+  --ombre:0 10px 28px -14px rgba(0,0,0,.7);
+}
+
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:var(--papier);color:var(--encre);font-family:var(--f-corps);font-size:17px;line-height:1.5;-webkit-font-smoothing:antialiased}
+.app{max-width:36rem;margin-inline:auto;padding-inline:16px;padding-block:0 40px}
+button{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--dopa);outline-offset:2px}
+
+/* moniteur */
+.moniteur{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;margin-inline:-16px;padding:10px 16px 8px;background:var(--papier);border-bottom:1px solid var(--filet)}
+.moniteur-tete{display:flex;justify-content:space-between;align-items:baseline;gap:12px;font-family:var(--f-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--gris)}
+.lecture{color:var(--dopa);font-weight:600;font-variant-numeric:tabular-nums}
+#moniteur{display:block;width:100%;height:52px;margin-top:4px}
+
+/* écrans */
+.ecran{display:grid;gap:20px;padding-block:28px 0;animation:entree .28s ease-out both}
+@keyframes entree{from{opacity:.35;transform:translateY(8px)}to{opacity:1;transform:none}}
+.etiquette{font-family:var(--f-mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--gris);margin:0}
+.intro{margin:0;color:var(--gris);max-width:60ch}
+
+/* accueil */
+.marque{font-family:var(--f-titre);font-weight:900;font-size:clamp(4.4rem,24vw,8rem);line-height:.8;letter-spacing:-.01em;text-transform:uppercase;margin:6px 0 0}
+.marque span{color:var(--dopa)}
+.accroche{font-size:1.3rem;font-weight:700;line-height:1.25;margin:0;text-wrap:balance}
+.interrupteur{display:flex;gap:14px;align-items:flex-start;padding:14px 16px;border:1px solid var(--filet-fort);border-radius:12px;background:var(--feuille);cursor:pointer}
+.interrupteur input{appearance:none;-webkit-appearance:none;flex:none;width:46px;height:26px;border-radius:99px;background:var(--filet-fort);position:relative;margin:1px 0 0;cursor:pointer;transition:background .2s}
+.interrupteur input::after{content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.25);transition:transform .2s}
+.interrupteur input:checked{background:var(--dopa)}
+.interrupteur input:checked::after{transform:translateX(20px)}
+.interrupteur strong{display:block}
+.interrupteur span span{color:var(--gris);font-size:.95rem}
+.modes{display:grid;gap:12px}
+.mode{display:grid;gap:4px;text-align:left;padding:16px 18px 18px;border-radius:14px;border:1.5px solid var(--encre);background:var(--feuille);cursor:pointer;transition:border-color .15s, transform .15s}
+.mode:hover{border-color:var(--dopa);transform:translateY(-1px)}
+.mode strong{font-family:var(--f-titre);font-weight:800;font-size:2rem;line-height:1;text-transform:uppercase}
+.mode span{color:var(--gris)}
+
+/* formulaires */
+.champ{display:grid;gap:6px}
+.champ label,.entetes span{font-family:var(--f-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--gris)}
+input[type="text"]{width:100%;font:inherit;padding:12px 14px;border-radius:10px;border:1.5px solid var(--filet-fort);background:var(--feuille);color:var(--encre)}
+input[type="text"]:focus{outline:none;border-color:var(--dopa)}
+.lignes{display:grid;gap:8px}
+.entetes,.joueur-ligne{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) 40px;gap:8px;align-items:center}
+.retirer{width:40px;height:44px;border-radius:10px;border:1.5px solid var(--filet-fort);background:transparent;cursor:pointer;font-size:1.3rem;line-height:1;color:var(--gris)}
+.retirer:disabled{opacity:.35;cursor:default}
+.puce-hard{justify-self:start;font-family:var(--f-mono);font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;background:var(--dopa);color:var(--sur-dopa);padding:3px 9px;border-radius:99px}
+.erreur{margin:0;color:var(--alerte);font-weight:700}
+
+.boutons{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.bouton{appearance:none;border:1.5px solid var(--encre);border-radius:999px;padding:13px 22px;font-weight:700;background:var(--encre);color:var(--papier);cursor:pointer}
+.bouton:hover{background:var(--dopa);border-color:var(--dopa);color:var(--sur-dopa)}
+.bouton.second{background:transparent;color:var(--encre);border-color:var(--filet-fort)}
+.bouton.second:hover{border-color:var(--encre)}
+.lien{appearance:none;border:0;background:none;padding:0;cursor:pointer;font-family:var(--f-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--gris);text-decoration:underline;text-underline-offset:3px}
+
+/* question */
+.q-meta{display:flex;justify-content:space-between;align-items:baseline;gap:8px 12px;flex-wrap:wrap}
+.q-qui{margin:0;font-weight:700}
+.q-texte{font-family:var(--f-titre);font-weight:800;font-size:clamp(2.1rem,9vw,2.9rem);line-height:1;margin:0;text-wrap:balance}
+.options{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.option{width:100%;display:grid;grid-template-columns:22px minmax(0,1fr);gap:12px;align-items:baseline;text-align:left;padding:14px 16px;border-radius:12px;border:1.5px solid var(--filet-fort);background:var(--feuille);cursor:pointer;font-size:1.03rem;line-height:1.4;transition:border-color .15s, background .15s}
+.option:hover{border-color:var(--encre)}
+.option.choisi{border-color:var(--dopa);background:var(--dopa-doux)}
+.lettre{font-family:var(--f-mono);font-weight:600;font-size:.9rem;color:var(--dopa)}
+.quip{margin:0;font-style:italic;color:var(--gris)}
+
+/* passe */
+.passe-nom{font-family:var(--f-titre);font-weight:900;font-size:clamp(3.2rem,17vw,5.5rem);line-height:.88;text-transform:uppercase;color:var(--dopa);margin:0;overflow-wrap:anywhere}
+
+/* semaine */
+.echelle{display:flex;justify-content:space-between;gap:12px;font-family:var(--f-mono);font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--gris)}
+.jours{display:grid;gap:4px}
+.jour{display:grid;grid-template-columns:5.6rem minmax(0,1fr) 2.2ch;gap:10px;align-items:center}
+.jour label{font-weight:700}
+.jour input{width:100%;accent-color:var(--dopa);height:32px;margin:0}
+.jour output{font-family:var(--f-mono);font-variant-numeric:tabular-nums;text-align:right;color:var(--dopa);font-weight:600}
+.courbe{display:block;width:100%;height:150px;background:var(--feuille);border:1px solid var(--filet);border-radius:12px}
+.mini{display:block;width:100%;height:44px}
+
+/* révélation */
+.revele-liste{list-style:none;margin:0;padding:0;border-top:3px double var(--encre)}
+.revele-liste li{display:grid;gap:2px;padding:12px 0;border-bottom:1px solid var(--filet)}
+.rv-nom{font-family:var(--f-mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--dopa);font-weight:600}
+.rv-note{font-family:var(--f-mono);font-size:12px;color:var(--gris)}
+
+/* compte rendu */
+.rapport{--c:var(--dopa);background:var(--feuille);border:1px solid var(--filet-fort);border-radius:4px;padding:18px 18px 22px;display:grid;gap:22px;box-shadow:var(--ombre)}
+.r-tete{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;padding-bottom:10px;border-bottom:3px double var(--encre);font-family:var(--f-mono);font-size:11px;line-height:1.45;letter-spacing:.05em;text-transform:uppercase}
+.r-tete strong{font-weight:600}
+.r-tete .droite{text-align:right;color:var(--gris)}
+.r-ident{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:0}
+.r-ident dt{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--gris)}
+.r-ident dd{margin:0;font-weight:700;overflow-wrap:anywhere}
+.tampon{justify-self:start;display:grid;gap:2px;padding:10px 16px 12px;border:3px solid var(--c);color:var(--c);border-radius:6px;box-shadow:inset 0 0 0 2px var(--feuille), inset 0 0 0 4px var(--c);transform:rotate(-3deg);transform-origin:left center;margin:2px 0 4px 4px;max-width:100%;animation:tampon .42s cubic-bezier(.2,1.4,.4,1) both .1s}
+@keyframes tampon{from{transform:rotate(-9deg) scale(1.3)}to{transform:rotate(-3deg) scale(1)}}
+.tampon-type{font-family:var(--f-mono);font-size:12px;font-weight:600;letter-spacing:.16em;text-transform:uppercase}
+.tampon-nom{font-family:var(--f-titre);font-weight:900;font-size:clamp(2.5rem,12vw,3.6rem);line-height:.9;text-transform:uppercase;text-wrap:balance}
+.r-texte{margin:0;font-size:1.06rem;max-width:62ch}
+.r-section h3{font-family:var(--f-mono);font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--gris);margin:0 0 10px;padding-bottom:6px;border-bottom:1px solid var(--filet)}
+.compo{display:grid;gap:10px}
+.compo-ligne{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 12px;align-items:baseline}
+.compo-ligne b{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+.barre{grid-column:1/-1;height:8px;background:var(--filet);border-radius:99px;overflow:hidden}
+.barre i{display:block;height:100%;border-radius:99px}
+.tableau{overflow-x:auto}
+.r-table{width:100%;border-collapse:collapse;font-size:.97rem}
+.r-table th{font-family:var(--f-mono);font-size:10.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--gris);text-align:left;padding:0 0 6px}
+.r-table td{padding:8px 0;border-bottom:1px solid var(--filet)}
+.r-table .num{font-family:var(--f-mono);font-variant-numeric:tabular-nums;text-align:right;padding-right:14px;white-space:nowrap}
+.r-table th.num{padding-right:14px}
+.r-table .ref{font-family:var(--f-mono);font-variant-numeric:tabular-nums;color:var(--gris);white-space:nowrap}
+.r-table .hors{color:var(--dopa);font-weight:600}
+.r-note{margin:8px 0 0;font-family:var(--f-mono);font-size:12px;color:var(--gris)}
+.alerte{border:1.5px solid var(--alerte);background:var(--alerte-doux);border-radius:10px;padding:14px 16px;display:grid;gap:8px}
+.alerte h3{margin:0;color:var(--alerte);font-size:1.05rem}
+.alerte p{margin:0}
+.alerte .numeros{font-family:var(--f-mono);font-size:.92rem;line-height:1.6}
+details summary{cursor:pointer;font-family:var(--f-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--gris)}
+details p{margin:10px 0 0;max-width:62ch;font-size:.97rem}
+.statut{font-family:var(--f-mono);font-size:12px;color:var(--gris)}
+#copie-secours{width:100%;min-height:90px;font:inherit;font-size:.9rem;padding:10px;border-radius:10px;border:1.5px solid var(--filet-fort);background:var(--feuille);color:var(--encre)}
+
+/* bande */
+.palmares{margin:0;border-top:3px double var(--encre)}
+.palmares div{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:baseline;padding:10px 0;border-bottom:1px solid var(--filet)}
+.palmares dt{color:var(--gris)}
+.palmares dd{margin:0;font-weight:700;text-align:right}
+.palmares dd small{font-family:var(--f-mono);font-weight:400;color:var(--gris);margin-left:6px}
+.cartes{display:grid;gap:12px}
+.carte{--c:var(--dopa);background:var(--feuille);border:1px solid var(--filet-fort);border-radius:10px;padding:14px 16px 16px;display:grid;gap:6px}
+.carte-profil{font-family:var(--f-titre);font-weight:900;font-size:2rem;line-height:.95;text-transform:uppercase;color:var(--c);margin:0}
+.carte p{margin:0}
+.carte .lien{justify-self:start;margin-top:4px}
+
+.pied{margin-top:40px;padding-top:14px;border-top:1px solid var(--filet);font-size:13px;color:var(--gris)}
+.pied p{margin:0}
+
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}
+</style>
+
+<div class="app">
+  <header class="moniteur" aria-label="Moniteur de dopamine">
+    <div class="moniteur-tete"><span>Taux de dopamine</span><span class="lecture" id="lecture">au repos</span></div>
+    <canvas id="moniteur" aria-hidden="true"></canvas>
+  </header>
+
+  <!-- accueil -->
+  <section class="ecran" id="ecran-accueil">
+    <p class="etiquette">Laboratoire d'analyses amoureuses</p>
+    <h1 class="marque">DeepLow<br><span>DuCul</span></h1>
+    <p class="accroche">Fou, toxique ou stable ? On passe ta relation au labo.</p>
+    <p class="intro">Des questions, la courbe de ta semaine, puis un compte rendu d'analyse avec ton taux de turbulence. Inspiré de la recherche sur l'amour et l'addiction, écrit pour rire un peu. Aucune réponse ne quitte ce téléphone.</p>
+    <label class="interrupteur" for="hardcore">
+      <input type="checkbox" id="hardcore">
+      <span><strong>Mode hardcore · 18+</strong><span>Questions sur le sexe, les ex et la jalousie. Verdicts sans pitié.</span></span>
+    </label>
+    <div class="modes">
+      <button type="button" class="mode" id="choix-solo"><strong>Solo</strong><span id="desc-solo">Ta relation au microscope. 15 questions et la courbe de ta semaine.</span></button>
+      <button type="button" class="mode" id="choix-potes"><strong>Entre potes</strong><span>On se passe le téléphone, chacun répond sur sa relation, révélation après chaque question et classement de la bande.</span></button>
+    </div>
+  </section>
+
+  <!-- réglages solo -->
+  <section class="ecran" id="ecran-solo" hidden>
+    <p class="etiquette">Solo · ouverture du dossier</p>
+    <h2 class="q-texte">Qui passe au labo ?</h2>
+    <span class="puce-hard" data-hard hidden>Mode hardcore</span>
+    <div class="champ"><label for="solo-nom">Ton prénom</label><input type="text" id="solo-nom" autocomplete="off" maxlength="24" placeholder="Toi"></div>
+    <div class="champ"><label for="solo-p">Son prénom</label><input type="text" id="solo-p" autocomplete="off" maxlength="24" placeholder="Ta moitié, ton crush, ton ex…"></div>
+    <div class="boutons">
+      <button type="button" class="bouton" id="lancer-solo">Lancer l'analyse</button>
+      <button type="button" class="bouton second" data-accueil>Retour</button>
+    </div>
+  </section>
+
+  <!-- réglages potes -->
+  <section class="ecran" id="ecran-potes" hidden>
+    <p class="etiquette">Entre potes · 2 à 8 personnes</p>
+    <h2 class="q-texte">Qui joue, et avec qui ?</h2>
+    <span class="puce-hard" data-hard hidden>Mode hardcore</span>
+    <p class="intro">Chacun met son prénom et celui de la personne qu'il fréquente. Pas de relation en cours ? Mets ton crush ou ton ex.</p>
+    <div class="lignes">
+      <div class="entetes"><span>Prénom</span><span>Son prénom</span><span></span></div>
+      <div class="lignes" id="lignes-potes"></div>
+    </div>
+    <div class="boutons">
+      <button type="button" class="bouton second" id="ajouter">Ajouter quelqu'un</button>
+    </div>
+    <p class="erreur" id="erreur-potes" hidden></p>
+    <div class="boutons">
+      <button type="button" class="bouton" id="lancer-potes">Lancer la partie</button>
+      <button type="button" class="bouton second" data-accueil>Retour</button>
+    </div>
+  </section>
+
+  <!-- passe le téléphone -->
+  <section class="ecran" id="ecran-passe" hidden>
+    <p class="etiquette" id="passe-etape"></p>
+    <p class="intro">Passe le téléphone à</p>
+    <p class="passe-nom" id="passe-nom"></p>
+    <p class="intro">Les autres, regardez ailleurs.</p>
+    <div class="boutons"><button type="button" class="bouton" id="passe-ok">C'est moi, j'y vais</button></div>
+  </section>
+
+  <!-- question -->
+  <section class="ecran" id="ecran-question" hidden>
+    <div class="q-meta">
+      <p class="etiquette" id="q-compteur"></p>
+      <button type="button" class="lien" data-quitter>Abandonner</button>
+    </div>
+    <p class="q-qui" id="q-qui" hidden></p>
+    <span class="puce-hard" id="q-hard" hidden>Hardcore</span>
+    <h2 class="q-texte" id="q-texte"></h2>
+    <ul class="options" id="q-options"></ul>
+    <p class="quip" id="q-quip"></p>
+  </section>
+
+  <!-- semaine -->
+  <section class="ecran" id="ecran-semaine" hidden>
+    <div class="q-meta">
+      <p class="etiquette" id="s-compteur"></p>
+      <button type="button" class="lien" data-quitter>Abandonner</button>
+    </div>
+    <p class="q-qui" id="s-qui" hidden></p>
+    <h2 class="q-texte" id="s-titre"></h2>
+    <p class="intro">Un curseur par jour de la semaine dernière. C'est la mesure qui compte le plus pour la turbulence : on regarde l'écart d'un jour à l'autre, pas la hauteur.</p>
+    <canvas class="courbe" id="s-courbe" data-sem="[5,5,5,5,5,5,5]" data-axes="1" aria-hidden="true"></canvas>
+    <div class="echelle"><span>0 · au fond du trou</span><span>10 · au septième ciel</span></div>
+    <div class="jours" id="jours"></div>
+    <div class="boutons"><button type="button" class="bouton" id="valider-semaine">Valider ma semaine</button></div>
+  </section>
+
+  <!-- révélation -->
+  <section class="ecran" id="ecran-revele" hidden>
+    <p class="etiquette" id="rv-compteur"></p>
+    <h2 class="q-texte" id="rv-texte"></h2>
+    <ul class="revele-liste" id="rv-liste"></ul>
+    <p class="quip" id="rv-quip"></p>
+    <div class="boutons"><button type="button" class="bouton" id="rv-suite"></button></div>
+  </section>
+
+  <!-- compte rendu -->
+  <section class="ecran" id="ecran-resultat" hidden>
+    <div id="rapport"></div>
+    <div class="boutons" id="actions-solo">
+      <button type="button" class="bouton" id="copier">Copier le résultat</button>
+      <button type="button" class="bouton second" data-accueil>Refaire le test</button>
+      <span class="statut" id="statut" role="status"></span>
+    </div>
+    <textarea id="copie-secours" readonly hidden></textarea>
+    <div class="boutons" id="actions-bande" hidden>
+      <button type="button" class="bouton" id="retour-bande">Retour à la bande</button>
+    </div>
+  </section>
+
+  <!-- bande -->
+  <section class="ecran" id="ecran-bande" hidden>
+    <p class="etiquette">Résultats de la bande</p>
+    <h2 class="q-texte">Le palmarès</h2>
+    <dl class="palmares" id="palmares"></dl>
+    <div class="cartes" id="cartes"></div>
+    <div class="boutons"><button type="button" class="bouton second" data-accueil>Nouvelle partie</button></div>
+  </section>
+
+  <footer class="pied">
+    <p>Jeu inspiré des travaux de Helen Fisher, Richard Solomon, Dorothy Tennov, Robert Sternberg et John Gottman. Pas un diagnostic. Aucune réponse ne quitte ce téléphone.</p>
+  </footer>
+</div>
+
+<script>
+(() => {
+'use strict';
+
+/* ---------- les questions ----------
+   Axes : i intensité, t turbulence, s sécurité, r réciprocité, j flou (amour-jeu), f drapeau rouge.
+   Chaque score est rapporté au maximum possible sur les questions posées. */
+
+const DUREE = { id: 'duree', t: 'Ça dure depuis combien de temps avec {P} ?', o: [
+  { x: 'Moins de 3 mois, ou ça n’a pas vraiment commencé.', d: 0, e: {} },
+  { x: 'Entre 3 mois et 1 an.', d: 1, e: {} },
+  { x: 'Entre 1 et 3 ans.', d: 2, e: {} },
+  { x: 'Plus de 3 ans. Respect.', d: 3, e: {} },
+]};
+
+const QUESTIONS = [
+  { id: 'silence', t: '{P} ne répond pas depuis trois heures. Tu…', o: [
+    { x: 'Ne l’as même pas remarqué : tu étais dans un paquet de chips.', e: { s: 2 } },
+    { x: 'Relis toute la conversation pour trouver ce que tu as mal dit.', e: { t: 3 } },
+    { x: 'As déjà écrit un poème sur son silence.', e: { i: 3, t: 1 } },
+    { x: 'Vérifies sa dernière connexion toutes les quatre minutes. C’est du cardio.', e: { t: 3, i: 1, f: 1 } },
+  ]},
+  { id: 'dispute', t: 'Votre dernière dispute ressemblait à…', o: [
+    { x: 'Un débat sur le meilleur fromage, réglé en dix minutes.', e: { s: 3, r: 1 } },
+    { x: 'Une saison de télé-réalité, réconciliation en larmes comprise.', e: { t: 3, i: 2 } },
+    { x: 'Quelle dispute ? Vous passez votre temps à vous regarder dans les yeux.', e: { i: 3, s: 1 } },
+    { x: 'Trois jours de silence, puis on fait comme si de rien n’était.', e: { t: 2, f: 1 } },
+  ]},
+  { id: 'potes', t: 'Quand tu parles de {P}, tes potes…', o: [
+    { x: 'Adorent {P}, qui vient aux soirées et ramène l’apéro.', e: { s: 3, r: 1 } },
+    { x: 'Ont créé un groupe WhatsApp sans toi pour en parler.', e: { t: 2, f: 1 } },
+    { x: 'Ne savent plus grand-chose de toi depuis deux mois.', e: { f: 2, i: 1 }, alerte: 'tes proches ne savent plus rien de toi' },
+    { x: 'Demandent « Qui ça ? ».', e: { j: 3 } },
+  ]},
+  { id: 'ressent', t: 'Tu sais ce que {P} ressent pour toi ?', o: [
+    { x: 'Oui, on se l’est dit en face.', e: { r: 3, s: 2 } },
+    { x: 'Je crois. Je décortique ses emojis pour vérifier.', e: { r: 1, i: 2, t: 1 } },
+    { x: 'Ça dépend des jours : un jour je suis sa vie, le lendemain plus rien.', e: { t: 3, r: 1 } },
+    { x: 'Aucune idée, mais j’ai déjà choisi le prénom de nos enfants.', e: { i: 3, j: 1 } },
+  ]},
+  { id: 'soiree', t: 'Après une soirée avec {P}, tu te sens…', o: [
+    { x: 'Batterie à 100 %.', e: { s: 3, i: 1 } },
+    { x: 'Sur un nuage, puis vide le lendemain matin.', e: { t: 3, i: 2 } },
+    { x: 'À plat, sans trop savoir pourquoi.', e: { t: 1, f: 1 } },
+    { x: 'Comme avant. C’était sympa, il y avait des pâtes.', e: { s: 2 } },
+  ]},
+  { id: 'cinqans', t: 'Tu imagines {P} dans cinq ans…', o: [
+    { x: 'À côté de toi, à se disputer la télécommande.', e: { s: 3, r: 1 } },
+    { x: 'Tu as déjà un tableau Pinterest pour le mariage.', e: { i: 3 } },
+    { x: 'Cinq ans ? Vous n’avez même pas prévu samedi.', e: { j: 3, t: 1 } },
+    { x: 'Ça dépend de son humeur de la semaine.', e: { t: 3 } },
+  ]},
+  { id: 'telephone', t: 'Ton téléphone, pour {P}, c’est…', o: [
+    { x: 'Ton téléphone. {P} n’y touche pas.', e: { s: 2, r: 1 } },
+    { x: 'Un appareil photo : vous vous le piquez pour les selfies.', e: { s: 1, i: 1 } },
+    { x: 'Un dossier d’enquête : {P} veut lire tes messages.', e: { f: 3, t: 1 }, alerte: '{P} veut lire tes messages' },
+    { x: 'Un sujet sensible : tu as changé ton code après la dernière crise.', e: { t: 2, f: 1 } },
+  ]},
+  { id: 'bien', t: 'Quand ça va bien entre vous, c’est…', o: [
+    { x: 'Doux et régulier, comme une bonne playlist.', e: { s: 2, i: 1 } },
+    { x: 'Le feu d’artifice du 14 juillet, tous les jours.', e: { i: 3 } },
+    { x: 'D’autant plus fort que la veille, c’était la guerre.', e: { t: 3, i: 2 } },
+    { x: 'Bien. Juste bien. Et c’est très bien.', e: { s: 2 } },
+  ]},
+  { id: 'vie', t: 'Depuis que tu vois {P}, ta vie est…', o: [
+    { x: 'Plus grande : nouveaux potes, nouveaux plans, nouveaux restos.', e: { s: 3, i: 1 } },
+    { x: 'Pareille, avec quelqu’un en plus dedans.', e: { s: 1 } },
+    { x: 'Plus petite : tout tourne autour de {P}.', e: { f: 2, i: 2, t: 1 }, alerte: 'ta vie rétrécit autour de {P}' },
+    { x: 'En pause : tu attends de savoir où vous en êtes.', e: { j: 2, t: 2 } },
+  ]},
+  { id: 'ex', t: 'L’ex de {P} like une de ses photos. Tu…', o: [
+    { x: 'Likes aussi, par solidarité.', e: { s: 2 } },
+    { x: 'Épluches trois ans de publications, captures d’écran à l’appui.', e: { t: 2, i: 2 } },
+    { x: 'T’en fiches, c’est du passé.', e: { s: 2 } },
+    { x: 'Fais une scène. Ou c’est {P} qui t’en fait une pour moins que ça.', e: { f: 2, t: 2 }, alerte: 'des scènes de jalousie' },
+  ]},
+  { id: 'officiel', t: 'Vous êtes quoi, officiellement ?', o: [
+    { x: 'Un couple, avec le statut et tout.', e: { s: 2, r: 2 } },
+    { x: '« On voit où ça va », depuis huit mois.', e: { j: 3 } },
+    { x: 'Ensemble, séparés, ensemble. Tu as perdu le compte.', e: { t: 3, j: 1 } },
+    { x: '{P} a rencontré ta mère, c’est dire.', e: { i: 1, s: 2, r: 2 } },
+  ]},
+  { id: 'non', t: 'Quand tu dis non à {P}…', o: [
+    { x: 'On en parle, et ça passe.', e: { s: 3 } },
+    { x: '{P} boude deux heures, puis c’est oublié.', e: { s: 1, t: 1 } },
+    { x: 'Tu ne dis jamais non. À quoi bon ?', e: { i: 2, f: 1 } },
+    { x: 'Tu as peur de sa réaction.', e: { f: 3, t: 2 }, alerte: 'tu as peur de sa réaction' },
+  ]},
+  { id: 'debut', t: 'Au début, {P} t’a…', o: [
+    { x: 'Plu tout doucement, sans que tu voies le coup venir.', e: { s: 2, i: 1 } },
+    { x: 'Fait l’effet d’un coup de massue, dès le premier regard.', e: { i: 3 } },
+    { x: 'Offert des fleurs et dit « je t’aime » dès la deuxième semaine.', e: { f: 2, i: 2, t: 1 }, alerte: 'un début en love bombing' },
+    { x: 'Répondu une fois sur deux. C’est ce qui a tout déclenché.', e: { t: 2, i: 2 } },
+  ]},
+  { id: 'semaine-sans', t: 'Une semaine sans nouvelles de {P}, pour toi c’est…', o: [
+    { x: 'Des vacances. Ça fait du bien aussi.', e: { j: 1 } },
+    { x: 'Long, mais tu sais que {P} revient.', e: { s: 3, r: 2, i: 1 } },
+    { x: 'Un sevrage : sueurs froides, insomnies, relecture de vos messages.', e: { i: 3, t: 2 } },
+    { x: 'Déjà arrivé, deux fois. Puis {P} a refait surface comme si de rien n’était.', e: { t: 3, j: 2 } },
+  ]},
+];
+
+const HARDCORE = [
+  { id: 'lit', t: 'Au lit avec {P}, c’est…', o: [
+    { x: 'Toujours bien, parfois génial, jamais un drame.', e: { s: 3, i: 1 } },
+    { x: 'Explosif, surtout après une engueulade.', e: { t: 3, i: 2 } },
+    { x: 'On ne va pas se mentir : Netflix a gagné.', e: { s: 1 } },
+    { x: 'Le seul endroit où vous vous comprenez vraiment.', e: { i: 2, t: 2, j: 2 } },
+  ]},
+  { id: 'stalk', t: 'Tu as stalké l’ex de {P} jusqu’à…', o: [
+    { x: 'Jamais. Tu as une vie.', e: { s: 2 } },
+    { x: 'Ses photos de vacances de 2019.', e: { i: 1, t: 1 } },
+    { x: 'Son LinkedIn, sa mère et son chien.', e: { i: 2, t: 2 } },
+    { x: 'Te créer un faux compte pour ça.', e: { i: 2, t: 2, f: 1 } },
+  ]},
+  { id: 'deuxh', t: 'Le message de {P} à 2 h du matin, c’est plutôt…', o: [
+    { x: '« Tu dors ? Fais de beaux rêves. »', e: { s: 2, r: 1 } },
+    { x: '« Tu dors ? 😏 », et tu arrives en taxi.', e: { i: 2, j: 2 } },
+    { x: 'Un pavé sur tout ce que tu as fait de travers.', e: { t: 3, f: 2 }, alerte: 'des reproches en pleine nuit' },
+    { x: 'Rien. {P} dort à côté et ronfle.', e: { s: 2 } },
+  ]},
+  { id: 'tumemanques', t: 'Ton ex t’écrit « tu me manques ». Tu…', o: [
+    { x: 'Réponds « pas toi » et retournes voir {P}.', e: { s: 2 } },
+    { x: 'Hésites trente secondes de trop.', e: { j: 2, t: 1 } },
+    { x: 'Montres le message à {P}, ça fait une anecdote.', e: { s: 3, r: 1 } },
+    { x: 'As déjà fait le coup à {P} pour tester sa jalousie.', e: { t: 2, j: 2, f: 1 } },
+  ]},
+  { id: 'historique', t: 'Si {P} tombait sur ton historique de recherche…', o: [
+    { x: 'Rien de grave : recettes, météo, vidéos de chats.', e: { s: 2 } },
+    { x: '{P} lirait « comment savoir si on m’aime vraiment ».', e: { i: 2, t: 2 } },
+    { x: 'Tu changerais de pays.', e: { j: 2, t: 1 } },
+    { x: '{P} l’a déjà lu, sans te demander.', e: { f: 3 }, alerte: '{P} fouille ton historique' },
+  ]},
+  { id: 'reconciliation', t: 'Votre plus grosse réconciliation, c’était…', o: [
+    { x: 'Un câlin et une pizza.', e: { s: 2 } },
+    { x: 'Un week-end entier sans sortir de la chambre.', e: { i: 2, t: 2 } },
+    { x: 'La cinquième de l’année, et on est en mars.', e: { t: 3, j: 1 } },
+    { x: 'Il n’y a jamais vraiment eu de fâcherie.', e: { s: 2 } },
+  ]},
+  { id: 'contact', t: 'Dans tes contacts, {P} s’appelle…', o: [
+    { x: '{P}. Tout simplement.', e: { s: 1 } },
+    { x: 'Un surnom ridicule et trois cœurs.', e: { i: 2, s: 1 } },
+    { x: '« Ne pas répondre », et tu réponds à chaque fois.', e: { t: 3, j: 1 } },
+    { x: 'Un faux nom, pour que personne ne tombe dessus.', e: { j: 3 } },
+  ]},
+].map(q => ({ ...q, hard: true }));
+
+const BANQUE = {};
+[DUREE, ...QUESTIONS, ...HARDCORE].forEach(q => { BANQUE[q.id] = q; });
+
+/* ---------- les profils ---------- */
+
+const PROFILS = {
+  fusee: { nom: 'La Fusée', type: 'Amour fou', v: { i: 85, t: 35, s: 60, r: 75, j: 25 },
+    doux: 'Décollage vertical, tu n’as plus pied. Ton cerveau s’allume comme sous cocaïne : Helen Fisher l’a vu en IRM chez des amoureux tout neufs. Profite du voyage, mais jette un œil au tableau de bord. Une fusée, ça finit en orbite ou ça retombe.',
+    dur: 'Tu planes à dix mille mètres et {P} tient la seringue. Tu souris à ton téléphone dans le métro, tes potes ne te reconnaissent plus, et c’est aussi beau que ridicule. Profite, la redescente ne prévient pas.' },
+  russes: { nom: 'Les Montagnes russes', type: 'Amour toxique', v: { i: 70, t: 85, s: 25, r: 50, j: 45 },
+    doux: 'Tu cries, mais pas toujours de joie. Chez vous, les hauts sont très hauts parce que les bas sont très bas, et ton cerveau s’accroche à ce yo-yo comme à une machine à sous. Ce n’est pas la force de l’amour qui fait ça, c’est son imprévisibilité.',
+    dur: 'Ce n’est pas une relation, c’est une machine à sous, et tu es le client qui ne quitte jamais la salle. Tu appelles ça de la passion, ton cerveau appelle ça du manque. Demande-toi ce qui resterait si les réconciliations s’arrêtaient.' },
+  port: { nom: 'Le Port d’attache', type: 'Amour stable', v: { i: 50, t: 12, s: 85, r: 85, j: 10 },
+    doux: 'Des charentaises, oui, mais en cachemire. Tu sais que {P} sera là demain, et ton cerveau adore ça : moins de feux d’artifice, zéro gueule de bois. Vous vous disputez aussi, mais vous réparez vite, et c’est exactement ce que Gottman mesure chez les couples qui durent.',
+    dur: 'Pas de drame, pas de crise, pas de réconciliation sur l’oreiller à trois heures du matin. C’est d’un ennui absolument merveilleux. Tes potes en montagnes russes t’envient en secret.' },
+  jackpot: { nom: 'Le Jackpot', type: 'Amour accompli', v: { i: 85, t: 15, s: 85, r: 90, j: 10 },
+    doux: 'La fusée a trouvé son orbite. Intensité haute et sécurité haute, après des mois : chez certains couples mariés depuis vingt ans, le cerveau réagit encore comme au premier jour (Acevedo, 2012). C’est rare. Ne le dis à personne, ça énerve.',
+    dur: 'Toujours autant envie l’un de l’autre, et en plus vous vous faites confiance. Franchement, c’est indécent. Arrête de faire ce test et va t’occuper de {P}.' },
+  film: { nom: 'Le Film dans ta tête', type: 'Limérence', v: { i: 85, t: 55, s: 30, r: 15, j: 50 },
+    doux: 'Tu as écrit la saga en trois tomes, {P} n’a pas lu le scénario. C’est la limérence, décrite par Dorothy Tennov en 1979 : moins tu sais ce que l’autre ressent, plus tu y penses. Le remède est simple et un peu cruel : obtenir une vraie réponse.',
+    dur: 'Tu es en couple. Avec l’idée que tu te fais de {P}. {P}, de son côté, n’est peut-être même pas au courant. Pose-lui la question, ou pose ton téléphone.' },
+  cache: { nom: 'Le Cache-cache', type: 'Amour-jeu', v: { i: 45, t: 50, s: 35, r: 45, j: 85 },
+    doux: 'Personne ne sait qui cherche qui, ni si la partie est finie. C’est l’amour-jeu, le Ludus de la roue de John Lee : léger, drôle, sans engagement. Parfait tant que vous jouez au même jeu tous les deux.',
+    dur: 'Des sentiments sans statut, ou un statut sans sentiments. Vous vous tournez autour depuis des mois. Soit vous vous le dites, soit vous arrêtez de faire semblant de ne pas jouer.' },
+  coloc: { nom: 'La Coloc sympa', type: 'Amour en veille', v: { i: 15, t: 15, s: 65, r: 60, j: 20 },
+    doux: 'Vous partagez le Wi-Fi, les courses et un compte Netflix. L’affection est là, la flamme est en veille. Sternberg appelle ça l’amour compagnon. Bonne nouvelle : une flamme en veille, ça se rallume.',
+    dur: 'La dernière fois que {P} t’a fait de l’effet, c’était pour savoir qui descend les poubelles. Vous êtes d’excellents colocataires. Reste à savoir si ça vous suffit.' },
+};
+
+const AXES = ['i', 't', 's', 'r', 'j'];
+const NOMS_AXES = { i: 'Intensité', t: 'Turbulence', s: 'Sécurité', r: 'Réciprocité', j: 'Flou' };
+const REF = { i: [40, 85], t: [0, 35], s: [60, 100], r: [60, 100], j: [0, 40] };
+const DUREE_COURTE = ['< 3 mois', '3 mois à 1 an', '1 à 3 ans', '> 3 ans'];
+const JOURS = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'];
+
+const QUIPS = [
+  'Respire. C’est un test, pas un jugement divin.',
+  'Réponds vite, ton cerveau reptilien sait déjà.',
+  'Aucune réponse ne quitte ce téléphone. Tu peux être honnête.',
+  'Helen Fisher a scanné des centaines de cerveaux amoureux. Le tien est le suivant.',
+  'Rappel : la dopamine, c’est l’envie, pas le plaisir.',
+  'Tu hésites entre deux réponses ? Prends la moins flatteuse.',
+  'Le labo ne juge pas. Il mesure.',
+];
+const QUIPS_HARD = [
+  'Mode hardcore : on ne ment pas à la machine.',
+  'Ta mère ne lira pas ces réponses. Promis.',
+  'Plus c’est gênant, plus c’est scientifique.',
+  'Ici, « c’est compliqué » n’est pas une réponse.',
+];
+
+/* ---------- outils ---------- */
+
+const $ = s => document.querySelector(s);
+const reduit = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const ECRANS = ['accueil', 'solo', 'potes', 'passe', 'question', 'semaine', 'revele', 'resultat', 'bande'];
+const MONO = '"IBM Plex Mono", ui-monospace, monospace';
+
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const typo = s => s.replace(/ ([?!:;»])/g, ' $1').replace(/« /g, '« ');
+const hasard = a => a[Math.floor(Math.random() * a.length)];
+const melanger = a => { const b = a.slice(); for (let k = b.length - 1; k > 0; k--) { const m = Math.floor(Math.random() * (k + 1)); [b[k], b[m]] = [b[m], b[k]]; } return b; };
+const nb = x => x.toLocaleString('fr-FR', { maximumFractionDigits: 1 });
+const moyenne = a => a.reduce((x, y) => x + y, 0) / a.length;
+const amplitude = sem => sem.slice(1).reduce((acc, v, k) => acc + Math.abs(v - sem[k]), 0) / (sem.length - 1);
+
+function remplir(txt, pl, majuscule = true) {
+  let s = typo(txt.split('{P}').join(pl.p).split('{N}').join(pl.nom));
+  if (majuscule) s = s.charAt(0).toUpperCase() + s.slice(1);
+  return s;
+}
+
+function typoArbre(racine) {
+  const w = document.createTreeWalker(racine, NodeFilter.SHOW_TEXT, {
+    acceptNode: n => /^(SCRIPT|STYLE|TEXTAREA)$/.test(n.parentNode.nodeName) ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT,
+  });
+  for (let n = w.nextNode(); n; n = w.nextNode()) {
+    const t = typo(n.nodeValue);
+    if (t !== n.nodeValue) n.nodeValue = t;
+  }
+}
+
+function couleurs() {
+  const cs = getComputedStyle(document.documentElement);
+  const v = n => cs.getPropertyValue(n).trim();
+  return { dopa: v('--dopa'), filet: v('--filet'), gris: v('--gris'), feuille: v('--feuille'), v };
+}
+
+function preparer(c) {
+  const dpr = window.devicePixelRatio || 1;
+  const w = c.clientWidth, h = c.clientHeight;
+  if (!w || !h) return null;
+  if (c.width !== Math.round(w * dpr) || c.height !== Math.round(h * dpr)) {
+    c.width = Math.round(w * dpr); c.height = Math.round(h * dpr);
+  }
+  const ctx = c.getContext('2d');
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  ctx.clearRect(0, 0, w, h);
+  return { ctx, w, h };
+}
+
+/* ---------- moniteur de dopamine ---------- */
+
+const MON = { pts: null, total: 16, raf: 0 };
+
+function ecg(p) {
+  if (p < 0.30) return 0;
+  if (p < 0.36) return 0.08 * Math.sin((p - 0.30) / 0.06 * Math.PI);
+  if (p < 0.40) return 0;
+  if (p < 0.42) return -0.12 * (p - 0.40) / 0.02;
+  if (p < 0.45) return -0.12 + 1.12 * (p - 0.42) / 0.03;
+  if (p < 0.48) return 1 - 1.28 * (p - 0.45) / 0.03;
+  if (p < 0.50) return -0.28 + 0.28 * (p - 0.48) / 0.02;
+  if (p < 0.62) return 0;
+  if (p < 0.72) return 0.16 * Math.sin((p - 0.62) / 0.10 * Math.PI);
+  return 0;
+}
+
+function dessinerMoniteur(now) {
+  const c = $('#moniteur');
+  const z = preparer(c); if (!z) return;
+  const { ctx, w, h } = z; const col = couleurs();
+  ctx.strokeStyle = col.filet; ctx.lineWidth = 1;
+  for (let k = 1; k < 4; k++) { const y = Math.round(h * k / 4) + 0.5; ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke(); }
+  for (let x = 24; x < w; x += 24) { ctx.beginPath(); ctx.moveTo(Math.round(x) + 0.5, 0); ctx.lineTo(Math.round(x) + 0.5, h); ctx.stroke(); }
+  ctx.strokeStyle = col.dopa; ctx.lineWidth = 2; ctx.lineJoin = 'round'; ctx.lineCap = 'round';
+  ctx.beginPath();
+  if (!MON.pts) {
+    const decalage = (now / 1000) * 70;
+    for (let x = 0; x <= w; x += 2) {
+      const p = ((((x + decalage) % 150) + 150) % 150) / 150;
+      const y = h * 0.7 - ecg(p) * h * 0.58;
+      if (x === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+    }
+    ctx.stroke();
+    return;
+  }
+  const pts = MON.pts, n = Math.max(MON.total, 2);
+  const pas = (w - 10) / (n - 1);
+  const X = k => 5 + k * pas, Y = v => h - 5 - (v / 100) * (h - 10);
+  pts.forEach((v, k) => { if (k === 0) ctx.moveTo(X(k), Y(v)); else ctx.lineTo(X(k), Y(v)); });
+  ctx.stroke();
+  const d = pts.length - 1;
+  ctx.fillStyle = col.dopa; ctx.beginPath(); ctx.arc(X(d), Y(pts[d]), 3.5, 0, Math.PI * 2); ctx.fill();
+}
+
+function boucle(now) { dessinerMoniteur(now); MON.raf = requestAnimationFrame(boucle); }
+
+function setMoniteur(pts) {
+  MON.pts = pts;
+  cancelAnimationFrame(MON.raf); MON.raf = 0;
+  if (!pts && !reduit) MON.raf = requestAnimationFrame(boucle);
+  else dessinerMoniteur(performance.now());
+  $('#lecture').textContent = pts ? `${pts[pts.length - 1]} u.a.` : 'au repos';
+}
+
+function pointDopa(pl, e) {
+  const avant = pl.pts[pl.pts.length - 1];
+  let cible = 38 + 14 * (e.i || 0) - 3 * (e.s || 0);
+  if (e.t) { cible += pl.signe * 13 * e.t; pl.signe *= -1; }
+  cible = Math.min(97, Math.max(4, cible));
+  pl.pts.push(Math.round(avant * 0.35 + cible * 0.65));
+}
+
+/* ---------- courbe de la semaine ---------- */
+
+function courbe(c) {
+  const z = preparer(c); if (!z) return;
+  const { ctx, w, h } = z; const col = couleurs();
+  const sem = JSON.parse(c.dataset.sem);
+  const axes = c.dataset.axes === '1';
+  const coul = c.dataset.c ? col.v('--' + c.dataset.c) : col.dopa;
+  const g = axes ? 30 : 3, dr = axes ? 12 : 3, ha = axes ? 12 : 4, ba = axes ? 24 : 4;
+  const W = w - g - dr, H = h - ha - ba;
+  const X = k => g + W * k / 6, Y = v => ha + H * (1 - v / 10);
+  if (axes) {
+    ctx.font = `11px ${MONO}`; ctx.fillStyle = col.gris; ctx.strokeStyle = col.filet; ctx.lineWidth = 1;
+    ctx.textAlign = 'right'; ctx.textBaseline = 'middle';
+    [0, 5, 10].forEach(v => { const y = Math.round(Y(v)) + 0.5; ctx.beginPath(); ctx.moveTo(g, y); ctx.lineTo(w - dr, y); ctx.stroke(); ctx.fillText(String(v), g - 8, y); });
+    ctx.textAlign = 'center'; ctx.textBaseline = 'alphabetic';
+    ['L', 'M', 'M', 'J', 'V', 'S', 'D'].forEach((l, k) => ctx.fillText(l, X(k), h - 7));
+  }
+  ctx.beginPath(); ctx.moveTo(X(0), Y(0));
+  sem.forEach((v, k) => ctx.lineTo(X(k), Y(v)));
+  ctx.lineTo(X(6), Y(0)); ctx.closePath();
+  ctx.globalAlpha = 0.14; ctx.fillStyle = coul; ctx.fill(); ctx.globalAlpha = 1;
+  ctx.beginPath(); sem.forEach((v, k) => { if (k === 0) ctx.moveTo(X(k), Y(v)); else ctx.lineTo(X(k), Y(v)); });
+  ctx.strokeStyle = coul; ctx.lineWidth = axes ? 2.5 : 2; ctx.lineJoin = 'round'; ctx.stroke();
+  if (axes) sem.forEach((v, k) => { ctx.beginPath(); ctx.arc(X(k), Y(v), 4, 0, Math.PI * 2); ctx.fillStyle = col.feuille; ctx.fill(); ctx.stroke(); });
+}
+
+function redessiner() {
+  document.querySelectorAll('canvas[data-sem]').forEach(c => { if (c.offsetParent !== null) courbe(c); });
+  if (!MON.raf) dessinerMoniteur(performance.now());
+}
+
+function commentaireCourbe(amp) {
+  if (amp < 1.2) return 'une autoroute';
+  if (amp < 2.5) return 'une route de campagne';
+  if (amp < 4) return 'un grand huit';
+  return 'l’électrocardiogramme d’un supporter un soir de finale';
+}
+
+/* ---------- partie ---------- */
+
+const S = { mode: 'solo', hard: false, joueurs: [], etapes: [], e: 0, j: 0, verrou: false, courant: 0 };
+
+function montrer(nom) {
+  ECRANS.forEach(e => { $('#ecran-' + e).hidden = e !== nom; });
+  typoArbre($('#ecran-' + nom));
+  window.scrollTo(0, 0);
+}
+
+function accueil() {
+  S.joueurs = []; S.etapes = [];
+  montrer('accueil'); setMoniteur(null);
+}
+
+function majAccueil() {
+  const n = 1 + QUESTIONS.length + ($('#hardcore').checked ? HARDCORE.length : 0);
+  $('#desc-solo').textContent = `Ta relation au microscope. ${n} questions et la courbe de ta semaine.`;
+  document.querySelectorAll('[data-hard]').forEach(el => { el.hidden = !$('#hardcore').checked; });
+}
+
+function demarrer(mode, joueurs) {
+  S.mode = mode; S.hard = $('#hardcore').checked;
+  S.joueurs = joueurs.map(({ nom, p }) => ({
+    nom, p, rep: {}, sem: null, pts: [35], signe: 1, d: 0,
+    num: String(10000 + Math.floor(Math.random() * 90000)),
+  }));
+  let qs;
+  if (mode === 'solo') qs = melanger([...QUESTIONS, ...(S.hard ? HARDCORE : [])]);
+  else qs = S.hard ? melanger([...melanger(HARDCORE).slice(0, 4), ...melanger(QUESTIONS).slice(0, 4)]) : melanger(QUESTIONS).slice(0, 8);
+  S.etapes = ['duree', ...qs.map(q => q.id), 'semaine'];
+  S.e = 0; S.j = 0; S.verrou = false;
+  MON.total = S.etapes.length + 1;
+  if (mode === 'solo') etape(); else passe();
+}
+
+function compteur() { return `Question ${S.e + 1} sur ${S.etapes.length}`; }
+
+function etape() {
+  if (S.etapes[S.e] === 'semaine') ecranSemaine(); else ecranQuestion(S.etapes[S.e]);
+}
+
+function passe() {
+  const pl = S.joueurs[S.j];
+  $('#passe-etape').textContent = compteur();
+  $('#passe-nom').textContent = pl.nom;
+  montrer('passe'); setMoniteur(null);
+}
+
+function ecranQuestion(id) {
+  const pl = S.joueurs[S.j], q = BANQUE[id];
+  $('#q-compteur').textContent = compteur();
+  $('#q-qui').hidden = S.mode !== 'potes';
+  $('#q-qui').textContent = `${pl.nom}, à propos de ${pl.p}`;
+  $('#q-hard').hidden = !q.hard;
+  $('#q-texte').textContent = remplir(q.t, pl);
+  $('#q-options').innerHTML = q.o.map((o, k) =>
+    `<li><button type="button" class="option" data-k="${k}"><span class="lettre">${'ABCD'[k]}</span><span>${esc(remplir(o.x, pl))}</span></button></li>`).join('');
+  $('#q-quip').textContent = hasard(S.hard && Math.random() < 0.6 ? QUIPS_HARD : QUIPS);
+  montrer('question'); setMoniteur(pl.pts);
+}
+
+function repondre(k, bouton) {
+  if (S.verrou) return;
+  S.verrou = true;
+  const pl = S.joueurs[S.j], id = S.etapes[S.e], o = BANQUE[id].o[k];
+  pl.rep[id] = k;
+  if (id === 'duree') pl.d = o.d; else pointDopa(pl, o.e);
+  bouton.classList.add('choisi');
+  setMoniteur(pl.pts);
+  setTimeout(() => { S.verrou = false; avancer(); }, reduit ? 60 : 260);
+}
+
+function avancer() {
+  if (S.mode === 'potes') {
+    S.j++;
+    if (S.j < S.joueurs.length) passe(); else ecranRevele();
+  } else {
+    S.e++;
+    if (S.e < S.etapes.length) etape(); else ecranResultat(0);
+  }
+}
+
+function ecranSemaine() {
+  const pl = S.joueurs[S.j];
+  $('#s-compteur').textContent = compteur();
+  $('#s-qui').hidden = S.mode !== 'potes';
+  $('#s-qui').textContent = `${pl.nom}, à propos de ${pl.p}`;
+  $('#s-titre').textContent = remplir('Dessine ta semaine avec {P}', pl);
+  $('#jours').innerHTML = JOURS.map((j, k) =>
+    `<div class="jour"><label for="jour-${k}">${j}</label><input type="range" id="jour-${k}" min="0" max="10" step="1" value="5"><output id="val-${k}" for="jour-${k}">5</output></div>`).join('');
+  $('#s-courbe').dataset.sem = '[5,5,5,5,5,5,5]';
+  montrer('semaine'); setMoniteur(pl.pts); redessiner();
+}
+
+function lireSemaine() { return JOURS.map((_, k) => Number($('#jour-' + k).value)); }
+
+function validerSemaine() {
+  const pl = S.joueurs[S.j];
+  pl.sem = lireSemaine();
+  pl.rep.semaine = true;
+  pl.pts.push(Math.round(8 + moyenne(pl.sem) * 8.5));
+  avancer();
+}
+
+function ecranRevele() {
+  const id = S.etapes[S.e];
+  $('#rv-compteur').textContent = `Révélation · ${compteur().toLowerCase()}`;
+  let quip = '';
+  if (id === 'semaine') {
+    $('#rv-texte').textContent = 'Les semaines de la bande';
+    $('#rv-liste').innerHTML = S.joueurs.map(pl =>
+      `<li><span class="rv-nom">${esc(pl.nom)}</span><canvas class="mini" data-sem="${esc(JSON.stringify(pl.sem))}" aria-hidden="true"></canvas><span class="rv-note">Écart moyen d’un jour à l’autre : ${nb(amplitude(pl.sem))} points</span></li>`).join('');
+    const pire = S.joueurs.reduce((a, b) => amplitude(b.sem) > amplitude(a.sem) ? b : a);
+    if (amplitude(pire.sem) >= 2) quip = `Le grand huit de la semaine est pour ${pire.nom}.`;
+  } else {
+    const q = BANQUE[id];
+    $('#rv-texte').textContent = remplir(q.t, { p: 'l’autre', nom: '' });
+    $('#rv-liste').innerHTML = S.joueurs.map(pl =>
+      `<li><span class="rv-nom">${esc(pl.nom)} · ${esc(pl.p)}</span><span>${esc(remplir(q.o[pl.rep[id]].x, pl))}</span></li>`).join('');
+    const choix = S.joueurs.map(pl => pl.rep[id]);
+    if (choix.every(c => c === choix[0])) quip = 'Tout le monde a répondu pareil. C’est inquiétant.';
+    else {
+      const turbulents = S.joueurs.filter(pl => (q.o[pl.rep[id]].e.t || 0) >= 3);
+      if (turbulents.length === 1) quip = `Mention spéciale turbulence : ${turbulents[0].nom}.`;
+      else if (turbulents.length > 1) quip = 'Plusieurs montagnes russes dans la salle.';
+    }
+  }
+  $('#rv-quip').textContent = quip;
+  $('#rv-suite').textContent = S.e + 1 < S.etapes.length ? 'Question suivante' : 'Voir les résultats';
+  montrer('revele'); setMoniteur(null); redessiner();
+}
+
+function continuerRevele() {
+  S.j = 0; S.e++;
+  if (S.e < S.etapes.length) passe(); else ecranBande();
+}
+
+/* ---------- analyse ---------- */
+
+function analyser(pl) {
+  const somme = { i: 0, t: 0, s: 0, r: 0, j: 0, f: 0 }, maxi = { ...somme };
+  const alertes = []; let grave = false;
+  for (const id of Object.keys(pl.rep)) {
+    if (id === 'duree' || id === 'semaine') continue;
+    const q = BANQUE[id], o = q.o[pl.rep[id]];
+    for (const a of Object.keys(somme)) {
+      maxi[a] += Math.max(...q.o.map(x => x.e[a] || 0));
+      somme[a] += o.e[a] || 0;
+    }
+    if (o.alerte) alertes.push(remplir(o.alerte, pl, false));
+    if ((o.e.f || 0) >= 3) grave = true;
+  }
+  const sem = pl.sem || [5, 5, 5, 5, 5, 5, 5];
+  const moy = moyenne(sem), amp = amplitude(sem);
+  somme.i += moy / 10 * 3; maxi.i += 3;
+  somme.t += Math.min(amp / 5, 1) * 3; maxi.t += 3;
+
+  const sc = {};
+  for (const a of Object.keys(somme)) sc[a] = maxi[a] ? Math.round(100 * somme[a] / maxi[a]) : (a === 'f' ? 0 : 50);
+
+  const dist = {};
+  for (const [id, P] of Object.entries(PROFILS)) {
+    let s2 = 0;
+    for (const a of AXES) s2 += (sc[a] - P.v[a]) ** 2;
+    let d = Math.sqrt(s2) / (100 * Math.sqrt(AXES.length));
+    if (id === 'jackpot') d += pl.d === 0 ? 0.2 : pl.d === 1 ? 0.07 : 0;
+    if (id === 'fusee' && pl.d === 3) d += 0.08;
+    if (id === 'coloc' && pl.d === 0) d += 0.1;
+    if (id === 'russes') d -= sc.f / 400;
+    dist[id] = Math.max(d, 0);
+  }
+  const poids = Object.entries(dist).map(([id, d]) => [id, Math.exp(-d / 0.08)]);
+  const total = poids.reduce((a, [, w]) => a + w, 0);
+  const compo = poids.map(([id, w]) => ({ id, pct: Math.round(100 * w / total) })).sort((a, b) => b.pct - a.pct);
+  let dom = compo[0].id;
+  if (sc.f >= 60) dom = 'russes';
+  const alerte = grave || sc.f >= 40 || alertes.length >= 2;
+  return { sc, compo, dom, alertes, alerte, moy, amp, sem };
+}
+
+function listeFr(a) {
+  if (a.length <= 1) return a.join('');
+  return a.slice(0, -1).join(', ') + ' et ' + a[a.length - 1];
+}
+
+function rapportHTML(pl, an) {
+  const P = PROFILS[an.dom];
+  const date = new Date().toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
+  const lignes = AXES.map(a => {
+    const v = an.sc[a], [lo, hi] = REF[a];
+    const fl = v > hi ? ' ↑' : v < lo ? ' ↓' : '';
+    return `<tr><td>${NOMS_AXES[a]}</td><td class="num${fl ? ' hors' : ''}">${v}${fl}</td><td class="ref">${lo} – ${hi}</td></tr>`;
+  }).join('');
+  const nbSignaux = an.alertes.length;
+  const compo = an.compo.filter(c => c.pct >= 2).slice(0, 3).map(c =>
+    `<div class="compo-ligne"><span>${PROFILS[c.id].nom} <span class="statut">${PROFILS[c.id].type}</span></span><b>${c.pct} %</b><span class="barre"><i style="width:${c.pct}%;background:var(--${c.id})"></i></span></div>`).join('');
+  let alerte = '';
+  if (an.alerte && S.mode === 'solo') {
+    alerte = `<div class="alerte" role="note"><h3>Ça, on le prend au sérieux</h3>
+      <p>Dans tes réponses : ${esc(listeFr(an.alertes.length ? an.alertes : ['plusieurs signaux de contrôle']))}. Ce ne sont pas des preuves d’amour. Si tu te reconnais là-dedans, parles-en à quelqu’un de confiance.</p>
+      <p class="numeros">3919 · Violences Femmes Info, gratuit et anonyme<br>116 006 · aide aux victimes, pour tout le monde</p></div>`;
+  } else if (an.alerte) {
+    alerte = `<div class="alerte" role="note"><p>Quelques réponses sortent du cadre du jeu. Refais le test en solo, au calme.</p></div>`;
+  }
+  return `<article class="rapport" style="--c:var(--${an.dom})">
+    <header class="r-tete"><div><strong>DeepLowDuCul</strong><br>Laboratoire d’analyses amoureuses</div><div class="droite">Compte rendu n° ${pl.num}<br>${date}</div></header>
+    <dl class="r-ident">
+      <div><dt>Dossier</dt><dd>${esc(pl.nom)}</dd></div>
+      <div><dt>Sujet étudié</dt><dd>${esc(pl.p)}</dd></div>
+      <div><dt>Ancienneté</dt><dd>${DUREE_COURTE[pl.d]}</dd></div>
+    </dl>
+    <div class="tampon"><span class="tampon-type">${P.type}</span><span class="tampon-nom">${P.nom}</span></div>
+    <p class="r-texte">${esc(remplir(S.hard ? P.dur : P.doux, pl))}</p>
+    ${alerte}
+    <section class="r-section"><h3>Composition</h3><div class="compo">${compo}</div></section>
+    <section class="r-section"><h3>Résultats</h3>
+      <div class="tableau"><table class="r-table">
+        <thead><tr><th>Analyse</th><th class="num">Résultat</th><th>Réf. amour stable</th></tr></thead>
+        <tbody>${lignes}<tr><td>Drapeaux rouges</td><td class="num${nbSignaux ? ' hors' : ''}">${nbSignaux}${nbSignaux ? ' ↑' : ''}</td><td class="ref">0</td></tr></tbody>
+      </table></div>
+      <p class="r-note">Scores sur 100. ↑ au-dessus, ↓ en dessous des valeurs de référence.</p>
+    </section>
+    <section class="r-section"><h3>Courbe de la semaine</h3>
+      <canvas class="courbe" data-sem="${esc(JSON.stringify(an.sem))}" data-axes="1" data-c="${an.dom}" aria-label="Courbe de la semaine"></canvas>
+      <p class="r-note">Moyenne ${nb(an.moy)} sur 10 · écart moyen d’un jour à l’autre ${nb(an.amp)} points. Ta semaine ressemble à ${commentaireCourbe(an.amp)}.</p>
+    </section>
+    <details><summary>Comment le labo calcule</summary>
+      <p>L’intensité, c’est la passion de Hatfield et l’Eros de John Lee. La sécurité et la réciprocité viennent de la théorie de l’attachement et de la règle de Gottman : cinq gestes positifs pour un négatif pendant une dispute.</p>
+      <p>La turbulence mesure l’imprévisibilité, pas la force. La dopamine grimpe le plus quand une récompense a une chance sur deux d’arriver (Fiorillo, 2003). C’est pour ça qu’une relation en dents de scie accroche comme une machine à sous, et que ta courbe de la semaine pèse autant qu’une question entière.</p>
+    </details>
+  </article>`;
+}
+
+function texteResultat(pl, an) {
+  const P = PROFILS[an.dom];
+  const compo = an.compo.filter(c => c.pct >= 2).slice(0, 3).map(c => `${c.pct} % ${PROFILS[c.id].nom}`).join(', ');
+  return `DeepLowDuCul · ${pl.nom} et ${pl.p} : ${P.nom} (${P.type}). Composition : ${compo}. Turbulence ${an.sc.t}/100.`;
+}
+
+function ecranResultat(k) {
+  S.courant = k;
+  const pl = S.joueurs[k], an = analyser(pl);
+  $('#rapport').innerHTML = rapportHTML(pl, an);
+  $('#actions-solo').hidden = S.mode !== 'solo';
+  $('#actions-bande').hidden = S.mode === 'solo';
+  $('#statut').textContent = '';
+  $('#copie-secours').hidden = true;
+  montrer('resultat'); setMoniteur(pl.pts); redessiner();
+}
+
+function ecranBande() {
+  const res = S.joueurs.map(pl => ({ pl, an: analyser(pl) }));
+  const meilleur = a => res.reduce((x, y) => y.an.sc[a] > x.an.sc[a] ? y : x);
+  const palmares = [
+    ['Plus accro de la bande', 'i'],
+    ['Plus grosses montagnes russes', 't'],
+    ['Port le plus sûr', 's'],
+    ['Situation la plus floue', 'j'],
+  ];
+  $('#palmares').innerHTML = palmares.map(([titre, a]) => {
+    const m = meilleur(a);
+    return `<div><dt>${titre}</dt><dd>${esc(m.pl.nom)}<small>${NOMS_AXES[a].toLowerCase()} ${m.an.sc[a]}</small></dd></div>`;
+  }).join('');
+  $('#cartes').innerHTML = res.map(({ pl, an }, k) => {
+    const P = PROFILS[an.dom];
+    const compo = an.compo.slice(0, 2).map(c => `${c.pct} % ${PROFILS[c.id].nom}`).join(' · ');
+    return `<article class="carte" style="--c:var(--${an.dom})">
+      <span class="rv-nom">${esc(pl.nom)} · ${esc(pl.p)}</span>
+      <p class="carte-profil">${P.nom}</p>
+      <p>${P.type} · turbulence ${an.sc.t}</p>
+      <p class="statut">${compo}</p>
+      <canvas class="mini" data-sem="${esc(JSON.stringify(an.sem))}" data-c="${an.dom}" aria-hidden="true"></canvas>
+      <button type="button" class="lien" data-rapport="${k}">Compte rendu complet</button>
+    </article>`;
+  }).join('');
+  montrer('bande'); setMoniteur(null); redessiner();
+}
+
+/* ---------- réglages entre potes ---------- */
+
+function lignePote(nom = '', p = '') {
+  const n = $('#lignes-potes').children.length;
+  const div = document.createElement('div');
+  div.className = 'joueur-ligne';
+  div.innerHTML = `<input type="text" id="pote-nom-${n}" maxlength="18" autocomplete="off" placeholder="Prénom" aria-label="Prénom ${n + 1}" value="${esc(nom)}">
+    <input type="text" id="pote-p-${n}" maxlength="18" autocomplete="off" placeholder="Son prénom" aria-label="Son prénom ${n + 1}" value="${esc(p)}">
+    <button type="button" class="retirer" aria-label="Retirer">×</button>`;
+  $('#lignes-potes').appendChild(div);
+  majRetirer();
+}
+
+function majRetirer() {
+  const lignes = [...$('#lignes-potes').children];
+  lignes.forEach(l => { l.querySelector('.retirer').disabled = lignes.length <= 2; });
+  $('#ajouter').disabled = lignes.length >= 8;
+  $('#ajouter').hidden = lignes.length >= 8;
+}
+
+/* ---------- branchements ---------- */
+
+$('#hardcore').addEventListener('change', majAccueil);
+$('#choix-solo').addEventListener('click', () => { majAccueil(); montrer('solo'); $('#solo-p').focus(); });
+$('#choix-potes').addEventListener('click', () => {
+  majAccueil();
+  if (!$('#lignes-potes').children.length) { lignePote(); lignePote(); }
+  $('#erreur-potes').hidden = true;
+  montrer('potes');
+});
+document.querySelectorAll('[data-accueil]').forEach(b => b.addEventListener('click', accueil));
+document.querySelectorAll('[data-quitter]').forEach(b => b.addEventListener('click', accueil));
+
+$('#lancer-solo').addEventListener('click', () => {
+  const nom = $('#solo-nom').value.trim() || 'Toi';
+  const p = $('#solo-p').value.trim() || 'ta moitié';
+  demarrer('solo', [{ nom, p }]);
+});
+
+$('#ajouter').addEventListener('click', () => { lignePote(); });
+$('#lignes-potes').addEventListener('click', ev => {
+  const b = ev.target.closest('.retirer');
+  if (!b || b.disabled) return;
+  b.parentNode.remove(); majRetirer();
+});
+$('#lancer-potes').addEventListener('click', () => {
+  const joueurs = [...$('#lignes-potes').children].map(l => {
+    const [a, b] = l.querySelectorAll('input');
+    return { nom: a.value.trim(), p: b.value.trim() || 'ta moitié' };
+  }).filter(x => x.nom);
+  if (joueurs.length < 2) {
+    $('#erreur-potes').textContent = 'Il faut au moins deux prénoms pour jouer entre potes.';
+    $('#erreur-potes').hidden = false;
+    return;
+  }
+  demarrer('potes', joueurs);
+});
+
+$('#passe-ok').addEventListener('click', etape);
+$('#q-options').addEventListener('click', ev => {
+  const b = ev.target.closest('.option');
+  if (b) repondre(Number(b.dataset.k), b);
+});
+$('#jours').addEventListener('input', ev => {
+  const k = ev.target.id.split('-')[1];
+  $('#val-' + k).textContent = ev.target.value;
+  $('#s-courbe').dataset.sem = JSON.stringify(lireSemaine());
+  courbe($('#s-courbe'));
+});
+$('#valider-semaine').addEventListener('click', validerSemaine);
+$('#rv-suite').addEventListener('click', continuerRevele);
+$('#cartes').addEventListener('click', ev => {
+  const b = ev.target.closest('[data-rapport]');
+  if (b) ecranResultat(Number(b.dataset.rapport));
+});
+$('#retour-bande').addEventListener('click', ecranBande);
+
+$('#copier').addEventListener('click', () => {
+  const pl = S.joueurs[S.courant]; if (!pl) return;
+  const txt = texteResultat(pl, analyser(pl));
+  const secours = () => {
+    const t = $('#copie-secours'); t.value = txt; t.hidden = false; t.focus(); t.select();
+    $('#statut').textContent = 'Sélectionne le texte et copie-le.';
+  };
+  try {
+    navigator.clipboard.writeText(txt).then(() => { $('#statut').textContent = 'Copié.'; }, secours);
+  } catch (e) { secours(); }
+});
+
+window.addEventListener('resize', redessiner);
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change', redessiner);
+new MutationObserver(redessiner).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(redessiner);
+
+/* #demo : un dossier rempli au hasard, pour voir le compte rendu tout de suite */
+if (location.hash === '#demo') {
+  $('#hardcore').checked = true;
+  demarrer('solo', [{ nom: 'Nicolas', p: 'Léa' }]);
+  const pl = S.joueurs[0];
+  S.etapes.forEach(id => {
+    if (id === 'semaine') { pl.sem = [8, 2, 9, 3, 7, 1, 9]; pl.rep.semaine = true; pl.pts.push(50); return; }
+    const k = Math.floor(Math.random() * 4); pl.rep[id] = k;
+    if (id === 'duree') pl.d = BANQUE[id].o[k].d; else pointDopa(pl, BANQUE[id].o[k].e);
+  });
+  ecranResultat(0);
+} else {
+  majAccueil();
+  typoArbre(document.body);
+  setMoniteur(null);
+}
+})();
+</script>
